@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="960" viewBox="0 0 800 960" fill="none">
+  <rect width="800" height="960" rx="36" fill="#ECFDF5"/>
+  <rect x="40" y="40" width="720" height="880" rx="30" fill="#D1FAE5"/>
+  <circle cx="400" cy="360" r="140" fill="#6EE7B7"/>
+  <path d="M220 760C220 656.17 304.17 572 408 572H392C495.83 572 580 656.17 580 760V792H220V760Z" fill="#34D399"/>
+  <text x="400" y="860" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" fill="#065F46">
+    Replace with your headshot
+  </text>
+</svg>
