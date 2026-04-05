@@ -1,3 +1,5 @@
+// npm run dev -- --host 0.0.0.0 --port 5173
+
 import { useEffect, useState } from 'react'
 import headshotImage from '../Hayden-22.jpeg'
 
@@ -23,7 +25,7 @@ function App() {
   const [typedHeading, setTypedHeading] = useState('')
 
   const heroHeading = "Hey! I'm Hayden."
-  const resumeViewPath = '/resume.html'
+  const resumeViewPath = '/resume.pdf'
   const resumeDownloadPath = '/resume.pdf'
   const companyLogos = [
     { name: 'Boldsquare', src: '/Boldsquare.png' },
@@ -156,24 +158,28 @@ function App() {
             />
           </h1>
           <p className="max-w-xl text-base text-stone-300 sm:text-lg">
-            With a broad spectrum of experience across agency execution, consumer insights, student engagement, and event leadership, I bring a versatile skill set to marketing challenges. I'm passionate about applying data-driven insights and creative problem-solving to help organizations connect with their audiences effectively.
+            With a broad spectrum of experience across agency execution, consumer insights, student engagement, and event leadership, I bring a versatile skill set to marketing challenges. I'm passionate about applying data-driven insights and creative problem-solving to help organizations connect with their audiences effectively while simulataneously keeping sales pipelines cohesive and intuitive.
           </p>
           <div className="action-stack">
-            <a
-              href={resumeViewPath}
-              target="_blank"
-              rel="noreferrer"
-              className="swipe-btn swipe-btn--primary"
-            >
-              <span className="swipe-btn__label">View Resume</span>
-            </a>
-            <a
-              href={resumeDownloadPath}
-              download="Hayden-Cornett-Resume.pdf"
-              className="swipe-btn swipe-btn--secondary"
-            >
-              <span className="swipe-btn__label">Download Resume</span>
-            </a>
+            <div className="swipe-btn swipe-btn--primary resume-split" role="group" aria-label="Resume actions">
+              <span className="resume-split__label">Resume:</span>
+              <a
+                href={resumeViewPath}
+                target="_blank"
+                rel="noreferrer"
+                className="resume-split__link"
+              >
+                View
+              </a>
+              <span className="resume-split__divider">|</span>
+              <a
+                href={resumeDownloadPath}
+                download="Hayden-Cornett-Resume.pdf"
+                className="resume-split__link"
+              >
+                Download
+              </a>
+            </div>
             <a
               href="#/contact"
               className="swipe-btn swipe-btn--tertiary"
@@ -211,44 +217,6 @@ function App() {
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      <section className="pb-14">
-        <h2
-          className="headline-reveal font-heading text-3xl text-stone-100 sm:text-4xl"
-          style={{ animationDelay: '120ms' }}
-        >
-          At a glance
-        </h2>
-        <div className="mt-6">
-          <article className="sleek-surface rounded-3xl p-6">
-            <p className="text-xs uppercase tracking-[0.12em] text-stone-400">
-              Snapshot Summary
-            </p>
-            <h3 className="mt-2 font-heading text-2xl text-stone-100">
-              High-performance student marketer with measurable impact.
-            </h3>
-            <p className="mt-3 text-sm leading-relaxed text-stone-300">
-              Experience spans agency execution, consumer insights, student
-              engagement, and event leadership with results backed by concrete
-              metrics across academics and organizations.
-            </p>
-            <div className="mt-5 grid gap-3 sm:grid-cols-2">
-              <p className="rounded-xl border border-emerald-500/30 bg-emerald-500/15 px-4 py-3 text-sm font-semibold text-stone-100">
-                4.00 GPA at UT Haslam
-             </p>
-              <p className="rounded-xl border border-emerald-500/30 bg-emerald-500/15 px-4 py-3 text-sm font-semibold text-stone-100">
-                Business Fellows Honors Program
-              </p>
-              <p className="rounded-xl border border-emerald-500/30 bg-emerald-500/15 px-4 py-3 text-sm font-semibold text-stone-100">
-                MarTech certified at Boldsquare
-              </p>
-              <p className="rounded-xl border border-emerald-500/30 bg-emerald-500/15 px-4 py-3 text-sm font-semibold text-stone-100">
-                Incoming GE Appliances intern
-              </p>
-            </div>
-          </article>
         </div>
       </section>
 
@@ -464,7 +432,7 @@ function App() {
           rel="noreferrer"
           className="swipe-btn swipe-btn--secondary"
         >
-          <span className="swipe-btn__label">View LinkedIn</span>
+          <span className="swipe-btn__label">Connect on LinkedIn</span>
         </a>
       </div>
     </section>
