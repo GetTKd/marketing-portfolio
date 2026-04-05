@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import headshotImage from '../Hayden-22.jpeg'
 
 const pageLinks = [
   { id: 'home', label: 'Overview' },
@@ -19,7 +20,15 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeRole, setActiveRole] = useState('Boldsquare')
   const [activePage, setActivePage] = useState('home')
-  const [metricsLive, setMetricsLive] = useState(false)
+  const [typedHeading, setTypedHeading] = useState('')
+
+  const heroHeading = "Hey! I'm Hayden."
+  const companyLogos = [
+    { name: 'Boldsquare', src: '/Boldsquare.png' },
+    { name: 'GE Appliances', src: '/GE.png' },
+    { name: 'Beats by Dre', src: '/Beats.png' },
+    { name: 'University of Tennessee', src: '/Tennessee.png' },
+  ]
 
   const roles = {
     Boldsquare: {
@@ -62,10 +71,6 @@ function App() {
   }
 
   useEffect(() => {
-    const timer = window.setTimeout(() => {
-      setMetricsLive(true)
-    }, 400)
-
     const onHashChange = () => {
       setActivePage(getPageFromHash())
       setMenuOpen(false)
@@ -75,18 +80,48 @@ function App() {
     window.addEventListener('hashchange', onHashChange)
 
     return () => {
-      window.clearTimeout(timer)
       window.removeEventListener('hashchange', onHashChange)
     }
   }, [])
 
-  const metricClass = (delay) =>
-    [
-      'rounded-2xl border border-emerald-100/80 bg-white/80 p-5 backdrop-blur transition-all duration-700 ease-out',
-      metricsLive
-        ? `translate-y-0 opacity-100 ${delay}`
-        : 'translate-y-8 opacity-0',
-    ].join(' ')
+  useEffect(() => {
+    if (activePage !== 'home') return
+
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches
+
+    if (prefersReducedMotion) {
+      setTypedHeading(heroHeading)
+      return
+    }
+
+    setTypedHeading('')
+    let index = 0
+    let stepTimer
+
+    const startDelayTimer = window.setTimeout(() => {
+      const typeNext = () => {
+        index += 1
+        const nextText = heroHeading.slice(0, index)
+        setTypedHeading(nextText)
+
+        if (index >= heroHeading.length) {
+          return
+        }
+
+        const delay = nextText === 'Hey!' ? 520 : 70
+        stepTimer = window.setTimeout(typeNext, delay)
+      }
+
+      typeNext()
+    }, 700)
+
+    return () => {
+      window.clearTimeout(startDelayTimer)
+      window.clearTimeout(stepTimer)
+    }
+  }, [activePage])
 
   const renderOverviewPage = () => (
     <>
@@ -95,18 +130,22 @@ function App() {
           <p className="inline-flex rounded-full border border-emerald-300 bg-emerald-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-900">
             Client-facing marketing strategy that's stress-free
           </p>
-          <h1 className="font-heading text-4xl leading-tight text-stone-900 sm:text-5xl lg:text-6xl">
-            Hey! I'm Hayden.
+          <h1
+            className="headline-reveal font-heading text-4xl leading-tight text-stone-900 sm:text-5xl lg:text-6xl"
+            style={{ animationDelay: '80ms' }}
+          >
+            {typedHeading}
+            <span
+              aria-hidden="true"
+              className="typing-caret ml-1 inline-block h-[0.95em] w-[2px] bg-emerald-700 align-[-0.08em]"
+            />
           </h1>
           <p className="max-w-xl text-base text-stone-600 sm:text-lg">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer eu
-            nibh non nulla aliquet ultricies. Quisque congue dignissim magna,
-            vitae feugiat lacus dapibus id. Sed at diam quis leo cursus
-            accumsan a a ipsum.
+            With a broad spectrum of experience across agency execution, consumer insights, student engagement, and event leadership, I bring a versatile skill set to marketing challenges. My work is defined by measurable impact, whether it's driving engagement for 115+ students in leadership roles or delivering strategic recommendations to global brands. I'm passionate about applying data-driven insights and creative problem-solving to help organizations connect with their audiences effectively.
           </p>
           <div className="flex flex-wrap gap-3">
             <a
-              href="/resume.pdf"
+              href="/resume.html"
               target="_blank"
               rel="noreferrer"
               className="rounded-full bg-emerald-700 px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-emerald-600"
@@ -122,61 +161,80 @@ function App() {
           </div>
         </div>
 
-        <div className="rounded-3xl border border-stone-200/80 bg-white p-4 shadow-xl shadow-emerald-100/50 sm:p-6">
-          <img
-            src="/headshot-placeholder.svg"
-            alt="Headshot placeholder for Hayden Cornett"
-            className="h-auto w-full rounded-2xl border border-emerald-100"
-          />
+        <div className="overflow-hidden rounded-3xl border border-stone-200/80 bg-white p-4 shadow-xl shadow-emerald-100/50 sm:p-6">
+          <div className="flex h-[460px] flex-col overflow-hidden rounded-2xl border border-emerald-100 md:h-[540px]">
+            <div className="h-[85%] overflow-hidden">
+              <img
+                src={headshotImage}
+                alt="Headshot of Hayden Cornett"
+                loading="lazy"
+                decoding="async"
+                width="900"
+                height="1125"
+                className="h-full w-full object-cover object-top"
+              />
+            </div>
+
+            <div className="carousel-fade-in logo-slider-panel logo-slider-fade h-[15%] border-t border-emerald-100 bg-white/90 px-3 py-3 backdrop-blur">
+              <div className="logo-slider-track">
+                {[...companyLogos, ...companyLogos].map((logo, index) => (
+                  <div key={`${logo.name}-${index}`} className="logo-pill">
+                    <img
+                      src={logo.src}
+                      alt={logo.name}
+                      className="logo-pill__img"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       <section className="pb-14">
-        <h2 className="font-heading text-3xl text-stone-900 sm:text-4xl">
+        <h2
+          className="headline-reveal font-heading text-3xl text-stone-900 sm:text-4xl"
+          style={{ animationDelay: '120ms' }}
+        >
           At a glance
         </h2>
-        <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-          <article className={metricClass('delay-100')}>
+        <div className="mt-6">
+          <article className="rounded-3xl border border-emerald-100 bg-white p-6 shadow-sm">
             <p className="text-xs uppercase tracking-[0.12em] text-stone-500">
-              Academic Excellence
+              Snapshot Summary
             </p>
-            <p className="mt-2 text-2xl font-bold text-stone-900">4.00 GPA</p>
-            <p className="mt-2 text-sm text-stone-600">
-              Haslam College of Business, UT Knoxville.
+            <h3 className="mt-2 font-heading text-2xl text-stone-900">
+              High-performance student marketer with measurable impact.
+            </h3>
+            <p className="mt-3 text-sm leading-relaxed text-stone-600">
+              Experience spans agency execution, consumer insights, student
+              engagement, and event leadership with results backed by concrete
+              metrics across academics and organizations.
             </p>
-          </article>
-          <article className={metricClass('delay-200')}>
-            <p className="text-xs uppercase tracking-[0.12em] text-stone-500">
-              Selective Leadership
-            </p>
-            <p className="mt-2 text-2xl font-bold text-stone-900">6% Admit</p>
-            <p className="mt-2 text-sm text-stone-600">
-              Selected as UT Student Ambassador.
-            </p>
-          </article>
-          <article className={metricClass('delay-300')}>
-            <p className="text-xs uppercase tracking-[0.12em] text-stone-500">
-              Community Impact
-            </p>
-            <p className="mt-2 text-2xl font-bold text-stone-900">115+</p>
-            <p className="mt-2 text-sm text-stone-600">
-              Students supported through fraternity systems.
-            </p>
-          </article>
-          <article className={metricClass('delay-500')}>
-            <p className="text-xs uppercase tracking-[0.12em] text-stone-500">
-              Mentorship Lift
-            </p>
-            <p className="mt-2 text-2xl font-bold text-stone-900">+25%</p>
-            <p className="mt-2 text-sm text-stone-600">
-              Growth in student mentorship participation.
-            </p>
+            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              <p className="rounded-xl border border-emerald-100 bg-emerald-50/70 px-4 py-3 text-sm font-semibold text-stone-800">
+                4.00 GPA at UT Haslam
+              </p>
+              <p className="rounded-xl border border-emerald-100 bg-emerald-50/70 px-4 py-3 text-sm font-semibold text-stone-800">
+                Business Fellows Honors Program
+              </p>
+              <p className="rounded-xl border border-emerald-100 bg-emerald-50/70 px-4 py-3 text-sm font-semibold text-stone-800">
+                MarTech certified at Boldsquare
+              </p>
+              <p className="rounded-xl border border-emerald-100 bg-emerald-50/70 px-4 py-3 text-sm font-semibold text-stone-800">
+                Incoming GE Appliances intern
+              </p>
+            </div>
           </article>
         </div>
       </section>
 
       <section className="pb-14">
-        <h2 className="font-heading text-3xl text-stone-900 sm:text-4xl">
+        <h2
+          className="headline-reveal font-heading text-3xl text-stone-900 sm:text-4xl"
+          style={{ animationDelay: '180ms' }}
+        >
           What I offer
         </h2>
         <div className="mt-6 grid gap-4 md:grid-cols-2">
@@ -223,7 +281,10 @@ function App() {
 
   const renderEducationPage = () => (
     <section className="pb-14 pt-10">
-      <h2 className="font-heading text-3xl text-stone-900 sm:text-4xl">
+      <h2
+        className="headline-reveal font-heading text-3xl text-stone-900 sm:text-4xl"
+        style={{ animationDelay: '120ms' }}
+      >
         Education Details
       </h2>
       <div className="mt-6 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
@@ -260,7 +321,10 @@ function App() {
 
   const renderExperiencePage = () => (
     <section className="pb-14 pt-10">
-      <h2 className="font-heading text-3xl text-stone-900 sm:text-4xl">
+      <h2
+        className="headline-reveal font-heading text-3xl text-stone-900 sm:text-4xl"
+        style={{ animationDelay: '120ms' }}
+      >
         Experience Details
       </h2>
       <div className="mt-6 rounded-3xl border border-stone-200 bg-white p-6 shadow-sm sm:p-8">
@@ -307,7 +371,10 @@ function App() {
 
   const renderLeadershipPage = () => (
     <section className="pb-14 pt-10">
-      <h2 className="font-heading text-3xl text-stone-900 sm:text-4xl">
+      <h2
+        className="headline-reveal font-heading text-3xl text-stone-900 sm:text-4xl"
+        style={{ animationDelay: '120ms' }}
+      >
         Leadership Details
       </h2>
       <div className="mt-6 grid gap-4 md:grid-cols-2">
@@ -348,7 +415,10 @@ function App() {
       <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">
         Let's connect
       </p>
-      <h2 className="mt-3 font-heading text-3xl sm:text-4xl">
+      <h2
+        className="headline-reveal mt-3 font-heading text-3xl sm:text-4xl"
+        style={{ animationDelay: '100ms' }}
+      >
         Open to internships, mentorship, and marketing opportunities.
       </h2>
       <p className="mt-3 max-w-2xl text-stone-300">
@@ -383,11 +453,12 @@ function App() {
   }
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_20%_5%,#d1fae5_0,#ecfdf5_45%,#ffffff_100%)] text-stone-800">
+    <main className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_20%_5%,#d1fae5_0,#ecfdf5_45%,#ffffff_100%)] text-stone-800">
+      <div className="dot-pattern-bg pointer-events-none absolute inset-0" />
       <div className="pointer-events-none absolute left-0 top-0 h-72 w-72 -translate-x-1/3 -translate-y-1/4 rounded-full bg-emerald-300/30 blur-3xl" />
       <div className="pointer-events-none absolute bottom-0 right-0 h-80 w-80 translate-x-1/4 translate-y-1/4 rounded-full bg-green-300/20 blur-3xl" />
 
-      <div className="relative mx-auto w-full max-w-6xl px-4 pb-16 pt-6 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-16 pt-6 sm:px-6 lg:px-8">
         <header className="glass-card animate-fade-in rounded-2xl border border-emerald-100/80 px-4 py-3 shadow-sm sm:px-6">
           <div className="flex items-center justify-between gap-3">
             <div>
