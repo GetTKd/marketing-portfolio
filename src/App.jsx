@@ -524,7 +524,7 @@ function App() {
               </p>
             </div>
             <a
-              href="https://www.canva.com/design/DAHBnMl3ASI/pK7FBtxLq_bpTVQgOPFq_g/view"
+              href="https://www.canva.com/design/DAHH-dBnwmI/tSPej8S16j9cUtlbvKyHbw/view"
               target="_blank"
               rel="noreferrer"
               className="swipe-btn swipe-btn--secondary"
