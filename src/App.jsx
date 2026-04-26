@@ -8,6 +8,7 @@ const pageLinks = [
   { id: 'experience', label: 'Experience' },
   { id: 'education', label: 'Education' },
   { id: 'leadership', label: 'Leadership' },
+  { id: 'portfolio', label: 'Portfolio' },
   { id: 'contact', label: 'Contact' },
 ]
 
@@ -32,6 +33,24 @@ function App() {
     { name: 'GE Appliances', src: '/GE.png' },
     { name: 'Beats by Dre', src: '/Beats.png' },
     { name: 'University of Tennessee', src: '/Tennessee.png' },
+  ]
+  const portfolioDecks = [
+    {
+      title: 'Featured Slide Deck',
+      summary: 'A visual snapshot of strategy and creative storytelling work.',
+      embedSrc:
+        'https://www.canva.com/design/DAHBoGZEuDg/CaxHfx8RWWabkZDUDJBtJg/view?embed',
+      viewHref:
+        'https://www.canva.com/design/DAHBoGZEuDg/CaxHfx8RWWabkZDUDJBtJg/view',
+    },
+    {
+      title: 'Brand Book',
+      summary: 'A foundational brand identity guide for the same client.',
+      embedSrc:
+        'https://www.canva.com/design/DAHElmnjti0/09r41sUjmfQB9pQaYA1ZKA/view?embed',
+      viewHref:
+        'https://www.canva.com/design/DAHElmnjti0/09r41sUjmfQB9pQaYA1ZKA/view',
+    },
   ]
 
   const roles = {
@@ -401,6 +420,65 @@ function App() {
     </section>
   )
 
+  const renderPortfolioPage = () => (
+    <section className="pb-14 pt-10">
+      <h2
+        className="headline-reveal font-heading text-3xl text-stone-100 sm:text-4xl"
+        style={{ animationDelay: '120ms' }}
+      >
+        Portfolio
+      </h2>
+      <p className="mt-3 max-w-3xl text-sm text-stone-300 sm:text-base">
+        Featured client work focused on strategy and storytelling. More project examples will be added over time.
+      </p>
+
+      <div className="mt-6 grid gap-6">
+        <article className="sleek-surface rounded-3xl p-4 sm:p-6">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">Client Case Study</p>
+              <h3 className="mt-2 font-heading text-2xl text-stone-100">Mountain Mile</h3>
+              <p className="mt-2 max-w-3xl text-sm text-stone-300">
+                Mountain Mile sought to elevate its positioning in the greater Pigeon Forge area through a clearer brand story, stronger visual identity, and more differentiated market presence. These two decks show that work from both strategic and brand expression angles.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-5 grid gap-5 lg:grid-cols-2">
+            {portfolioDecks.map((deck) => (
+              <div key={deck.embedSrc} className="rounded-2xl border border-emerald-500/30 bg-stone-950/40 p-3 sm:p-4">
+                <div className="mb-3 flex items-start justify-between gap-3">
+                  <div>
+                    <p className="font-heading text-xl text-stone-100">{deck.title}</p>
+                    <p className="mt-1 text-sm text-stone-300">{deck.summary}</p>
+                  </div>
+                  <a
+                    href={deck.viewHref}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="swipe-btn swipe-btn--secondary"
+                  >
+                    <span className="swipe-btn__label">Open</span>
+                  </a>
+                </div>
+
+                <div className="overflow-hidden rounded-xl border border-emerald-500/30 bg-stone-900/40">
+                  <iframe
+                    title={`${deck.title} embed`}
+                    src={deck.embedSrc}
+                    loading="lazy"
+                    allow="fullscreen"
+                    className="h-[320px] w-full sm:h-[380px]"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </article>
+      </div>
+    </section>
+  )
+
   const renderContactPage = () => (
     <section
       id="contact"
@@ -442,6 +520,7 @@ function App() {
     if (activePage === 'experience') return renderExperiencePage()
     if (activePage === 'education') return renderEducationPage()
     if (activePage === 'leadership') return renderLeadershipPage()
+    if (activePage === 'portfolio') return renderPortfolioPage()
     return renderOverviewPage()
   }
 
