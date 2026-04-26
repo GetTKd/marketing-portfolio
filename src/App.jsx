@@ -12,11 +12,22 @@ const pageLinks = [
   { id: 'contact', label: 'Contact' },
 ]
 
-const getPageFromHash = () => {
-  const hash = window.location.hash || '#/home'
-  const page = hash.replace('#/', '')
-  const valid = pageLinks.some((link) => link.id === page)
-  return valid ? page : 'home'
+const getPageFromPath = () => {
+  const segment = window.location.pathname.replace(/^\/+|\/+$/g, '')
+  if (!segment) return 'home'
+  const valid = pageLinks.some((link) => link.id === segment)
+  return valid ? segment : 'home'
+}
+
+const getPathForPage = (page) => (page === 'home' ? '/' : `/${page}`)
+
+const scrollToContact = () => {
+  window.requestAnimationFrame(() => {
+    const contactSection = document.getElementById('contact')
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  })
 }
 
 function App() {
@@ -94,31 +105,57 @@ function App() {
   }
 
   useEffect(() => {
-    const onHashChange = () => {
-      const page = getPageFromHash()
+    const syncPageFromPath = (replaceInvalid = false) => {
+      const segment = window.location.pathname.replace(/^\/+|\/+$/g, '')
+      const nextPage = segment || 'home'
+      const valid = pageLinks.some((link) => link.id === nextPage)
 
-      if (page === 'contact') {
+      if (!valid) {
         setActivePage('home')
-        window.requestAnimationFrame(() => {
-          const contactSection = document.getElementById('contact')
-          if (contactSection) {
-            contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
-          }
-        })
+        if (replaceInvalid) {
+          window.history.replaceState({}, '', '/')
+        }
+        return
+      }
+
+      if (nextPage === 'contact') {
+        setActivePage('home')
+        scrollToContact()
       } else {
-        setActivePage(page)
+        setActivePage(nextPage)
       }
 
       setMenuOpen(false)
     }
 
-    onHashChange()
-    window.addEventListener('hashchange', onHashChange)
+    syncPageFromPath(true)
 
+    const onPopState = () => {
+      syncPageFromPath(false)
+    }
+
+    window.addEventListener('popstate', onPopState)
     return () => {
-      window.removeEventListener('hashchange', onHashChange)
+      window.removeEventListener('popstate', onPopState)
     }
   }, [])
+
+  const navigateToPage = (page) => {
+    const nextPath = getPathForPage(page)
+    if (window.location.pathname !== nextPath) {
+      window.history.pushState({}, '', nextPath)
+    }
+
+    if (page === 'contact') {
+      setActivePage('home')
+      scrollToContact()
+    } else {
+      setActivePage(page)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+
+    setMenuOpen(false)
+  }
 
   useEffect(() => {
     if (activePage !== 'home') return
@@ -200,8 +237,12 @@ function App() {
               </a>
             </div>
             <a
-              href="#/contact"
+              href="/contact"
               className="swipe-btn swipe-btn--tertiary"
+              onClick={(event) => {
+                event.preventDefault()
+                navigateToPage('contact')
+              }}
             >
               <span className="swipe-btn__label">Contact Me</span>
             </a>
@@ -251,22 +292,22 @@ function App() {
             {
               title: 'Marketing Strategy',
               text: 'Audience-aware messaging, project planning, and campaign positioning backed by client context.',
-              href: '#/experience',
+              page: 'experience',
             },
             {
               title: 'Consumer Insights',
               text: 'Survey design, trend analysis, and recommendation frameworks informed by data and modeling.',
-              href: '#/experience',
+              page: 'experience',
             },
             {
               title: 'Leadership Execution',
               text: 'Event architecture, engagement systems, and practical operations across student organizations.',
-              href: '#/leadership',
+              page: 'leadership',
             },
             {
               title: 'Professional Presence',
               text: 'Tour leadership, stakeholder communication, and polished presentation delivery under deadlines.',
-              href: '#/leadership',
+              page: 'leadership',
             },
           ].map((item) => (
             <article
@@ -276,8 +317,12 @@ function App() {
               <p className="font-heading text-xl text-stone-100">{item.title}</p>
               <p className="mt-3 text-sm text-stone-300">{item.text}</p>
               <a
-                href={item.href}
+                href={getPathForPage(item.page)}
                 className="mt-4 inline-block text-sm font-semibold text-emerald-300 underline underline-offset-4"
+                onClick={(event) => {
+                  event.preventDefault()
+                  navigateToPage(item.page)
+                }}
               >
                 Explore this in detail
               </a>
@@ -286,8 +331,12 @@ function App() {
         </div>
       </section>
 
-      {renderContactPage()}
+              href="/contact"
     </>
+              onClick={(event) => {
+                event.preventDefault()
+                navigateToPage('contact')
+              }}
   )
 
   const renderEducationPage = () => (
@@ -524,6 +573,8 @@ function App() {
     return renderOverviewPage()
   }
 
+  const activeNavPage = window.location.pathname === '/contact' ? 'contact' : activePage
+
   return (
     <main className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_15%_10%,#1c1917_0,#111827_48%,#0a0a0a_100%)] text-stone-100">
       <div className="dot-pattern-bg pointer-events-none absolute inset-0" />
@@ -552,11 +603,15 @@ function App() {
               {pageLinks.map((link) => (
                 <a
                   key={link.id}
-                  href={`#/${link.id}`}
+                  href={getPathForPage(link.id)}
                   className={[
                     'sleek-nav-link transition',
-                    activePage === link.id ? 'is-active' : '',
+                    activeNavPage === link.id ? 'is-active' : '',
                   ].join(' ')}
+                  onClick={(event) => {
+                    event.preventDefault()
+                    navigateToPage(link.id)
+                  }}
                 >
                   {link.label}
                 </a>
@@ -591,12 +646,15 @@ function App() {
                   key={link.id}
                   className={[
                     'block rounded-lg px-2 py-1.5 transition',
-                    activePage === link.id
+                    activeNavPage === link.id
                       ? 'bg-emerald-500/20 text-emerald-200'
                       : 'hover:bg-emerald-500/10',
                   ].join(' ')}
-                  href={`#/${link.id}`}
-                  onClick={() => setMenuOpen(false)}
+                  href={getPathForPage(link.id)}
+                  onClick={(event) => {
+                    event.preventDefault()
+                    navigateToPage(link.id)
+                  }}
                 >
                   {link.label}
                 </a>
