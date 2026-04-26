@@ -5,19 +5,12 @@ import headshotImage from '../Hayden-22.jpeg'
 
 const pageLinks = [
   { id: 'home', label: 'Overview' },
+  { id: 'portfolio', label: 'Portfolio' },
   { id: 'experience', label: 'Experience' },
   { id: 'education', label: 'Education' },
   { id: 'leadership', label: 'Leadership' },
-  { id: 'portfolio', label: 'Portfolio' },
   { id: 'contact', label: 'Contact' },
 ]
-
-const getPageFromPath = () => {
-  const segment = window.location.pathname.replace(/^\/+|\/+$/g, '')
-  if (!segment) return 'home'
-  const valid = pageLinks.some((link) => link.id === segment)
-  return valid ? segment : 'home'
-}
 
 const getPathForPage = (page) => (page === 'home' ? '/' : `/${page}`)
 
@@ -331,12 +324,8 @@ function App() {
         </div>
       </section>
 
-              href="/contact"
+      {renderContactPage()}
     </>
-              onClick={(event) => {
-                event.preventDefault()
-                navigateToPage('contact')
-              }}
   )
 
   const renderEducationPage = () => (
@@ -527,6 +516,7 @@ function App() {
       </div>
     </section>
   )
+
 
   const renderContactPage = () => (
     <section
