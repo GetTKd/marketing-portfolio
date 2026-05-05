@@ -28,6 +28,8 @@ function App() {
   const [activeRole, setActiveRole] = useState('Boldsquare')
   const [activePage, setActivePage] = useState('home')
   const [typedHeading, setTypedHeading] = useState('')
+  const [headerOpacity, setHeaderOpacity] = useState(0.5)
+  const [headerHovered, setHeaderHovered] = useState(false)
 
   const heroHeading = "Hey! I'm Hayden."
   const resumeViewPath = '/resume.pdf'
@@ -116,6 +118,10 @@ function App() {
       ],
     },
   }
+
+  useEffect(() => {
+    // Scroll handler removed - dock stays at bottom
+  }, [])
 
   useEffect(() => {
     const syncPageFromPath = (replaceInvalid = false) => {
@@ -254,7 +260,7 @@ function App() {
               className="swipe-btn swipe-btn--tertiary"
               onClick={(event) => {
                 event.preventDefault()
-                navigateToPage('contact')
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
               }}
             >
               <span className="swipe-btn__label">Contact Me</span>
@@ -688,97 +694,101 @@ function App() {
       <div className="pointer-events-none absolute left-0 top-0 h-72 w-72 -translate-x-1/3 -translate-y-1/4 rounded-full bg-emerald-500/30 blur-3xl" />
       <div className="pointer-events-none absolute bottom-0 right-0 h-80 w-80 translate-x-1/4 translate-y-1/4 rounded-full bg-emerald-400/20 blur-3xl" />
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-16 pt-6 sm:px-6 lg:px-8">
-        <header className="glass-card animate-fade-in rounded-2xl border border-emerald-500/30 px-4 py-3 shadow-[0_18px_42px_rgba(0,0,0,0.45)] sm:px-6">
-          <div className="flex items-center justify-between gap-3">
-            <div>
-              <p className="nameplate-rigid text-2xl leading-none text-stone-100">
-                Hayden Cornett
-              </p>
-            </div>
-
-            <button
-              className="sleek-outline inline-flex items-center rounded-full px-3 py-1.5 text-sm font-semibold transition md:hidden"
-              onClick={() => setMenuOpen((open) => !open)}
-              aria-expanded={menuOpen}
-              aria-controls="mobile-menu"
+      <header 
+        className="fixed left-0 right-0 bottom-6 flex justify-center z-50 transition-all duration-300 px-4 sm:px-6 lg:px-8"
+        style={{ 
+          opacity: headerHovered ? 1 : 0.5,
+          transform: headerHovered ? 'scale(1)' : 'scale(0.95)'
+        }}
+        onMouseEnter={() => setHeaderHovered(true)}
+        onMouseLeave={() => setHeaderHovered(false)}
+      >
+        <div className="glass-card animate-fade-in rounded-2xl border border-emerald-500/30 px-6 py-3 shadow-[0_18px_42px_rgba(0,0,0,0.45)] sm:px-8 w-fit">
+          <div className="flex items-center justify-center">
+          <nav className="hidden items-center gap-8 text-base font-medium text-stone-300 md:flex">
+            {pageLinks.filter((link) => link.id !== 'contact').map((link) => (
+              <a
+                key={link.id}
+                href={getPathForPage(link.id)}
+                className={[
+                  'sleek-nav-link transition',
+                  activeNavPage === link.id ? 'is-active' : '',
+                ].join(' ')}
+                onClick={(event) => {
+                  event.preventDefault()
+                  navigateToPage(link.id)
+                }}
+              >
+                {link.label}
+              </a>
+            ))}
+            <a
+              href="https://www.linkedin.com/in/hayden-cornett/"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Visit Hayden's LinkedIn profile"
+              className="sleek-outline rounded-full p-2 text-emerald-300 transition"
             >
-              Menu
-            </button>
+              <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden="true">
+                <path
+                  fill="currentColor"
+                  d="M6.94 8.5a1.56 1.56 0 1 1 0-3.12a1.56 1.56 0 0 1 0 3.12ZM5.5 9.72h2.9V19H5.5V9.72Zm4.72 0h2.78v1.27h.04c.39-.73 1.33-1.5 2.73-1.5c2.92 0 3.46 1.92 3.46 4.42V19h-2.9v-4.48c0-1.07-.02-2.45-1.49-2.45c-1.5 0-1.73 1.17-1.73 2.37V19h-2.9V9.72Z"
+                />
+              </svg>
+            </a>
+          </nav>
 
-            <nav className="hidden items-center gap-5 text-sm font-medium text-stone-300 md:flex">
-              {pageLinks.map((link) => (
-                <a
-                  key={link.id}
-                  href={getPathForPage(link.id)}
-                  className={[
-                    'sleek-nav-link transition',
-                    activeNavPage === link.id ? 'is-active' : '',
-                  ].join(' ')}
-                  onClick={(event) => {
-                    event.preventDefault()
-                    navigateToPage(link.id)
-                  }}
-                >
-                  {link.label}
-                </a>
-              ))}
-              <a
-                href="https://www.linkedin.com/in/hayden-cornett/"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Visit Hayden's LinkedIn profile"
-                className="sleek-outline rounded-full p-2 text-emerald-300 transition"
-              >
-                <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
-                  <path
-                    fill="currentColor"
-                    d="M6.94 8.5a1.56 1.56 0 1 1 0-3.12a1.56 1.56 0 0 1 0 3.12ZM5.5 9.72h2.9V19H5.5V9.72Zm4.72 0h2.78v1.27h.04c.39-.73 1.33-1.5 2.73-1.5c2.92 0 3.46 1.92 3.46 4.42V19h-2.9v-4.48c0-1.07-.02-2.45-1.49-2.45c-1.5 0-1.73 1.17-1.73 2.37V19h-2.9V9.72Z"
-                  />
-                </svg>
-              </a>
-            </nav>
-          </div>
-
-          <div
-            id="mobile-menu"
-            className={[
-              'grid overflow-hidden transition-all duration-300 md:hidden',
-              menuOpen ? 'mt-3 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0',
-            ].join(' ')}
+          <button
+            className="sleek-outline absolute right-4 inline-flex items-center rounded-full px-3 py-1.5 text-sm font-semibold transition md:hidden"
+            onClick={() => setMenuOpen((open) => !open)}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
           >
-            <nav className="min-h-0 space-y-2 border-t border-emerald-500/30 pt-3 text-sm font-medium text-stone-300">
-              {pageLinks.map((link) => (
-                <a
-                  key={link.id}
-                  className={[
-                    'block rounded-lg px-2 py-1.5 transition',
-                    activeNavPage === link.id
-                      ? 'bg-emerald-500/20 text-emerald-200'
-                      : 'hover:bg-emerald-500/10',
-                  ].join(' ')}
-                  href={getPathForPage(link.id)}
-                  onClick={(event) => {
-                    event.preventDefault()
-                    navigateToPage(link.id)
-                  }}
-                >
-                  {link.label}
-                </a>
-              ))}
-              <a
-                className="block rounded-lg bg-emerald-700 px-2 py-2 text-center text-white shadow-md shadow-emerald-900/25"
-                href="https://www.linkedin.com/in/hayden-cornett/"
-                target="_blank"
-                rel="noreferrer"
-                onClick={() => setMenuOpen(false)}
-              >
-                LinkedIn
-              </a>
-            </nav>
-          </div>
-        </header>
+            Menu
+          </button>
+        </div>
 
+        <div
+          id="mobile-menu"
+          className={[
+            'grid overflow-hidden transition-all duration-300 md:hidden',
+            menuOpen ? 'mt-3 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0',
+          ].join(' ')}
+        >
+          <nav className="min-h-0 space-y-2 border-t border-emerald-500/30 pt-3 text-sm font-medium text-stone-300">
+            {pageLinks.filter((link) => link.id !== 'contact').map((link) => (
+              <a
+                key={link.id}
+                className={[
+                  'block rounded-lg px-2 py-1.5 transition',
+                  activeNavPage === link.id
+                    ? 'bg-emerald-500/20 text-emerald-200'
+                    : 'hover:bg-emerald-500/10',
+                ].join(' ')}
+                href={getPathForPage(link.id)}
+                onClick={(event) => {
+                  event.preventDefault()
+                  navigateToPage(link.id)
+                }}
+              >
+                {link.label}
+              </a>
+            ))}
+            <a
+              className="block rounded-lg bg-emerald-700 px-2 py-2 text-center text-white shadow-md shadow-emerald-900/25"
+              href="https://www.linkedin.com/in/hayden-cornett/"
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => setMenuOpen(false)}
+            >
+              LinkedIn
+            </a>
+          </nav>
+        </div>
+        </div>
+      </header>
+
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-32 pt-6 sm:px-6 lg:px-8">
         {renderPage()}
       </div>
     </main>
