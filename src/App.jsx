@@ -56,6 +56,26 @@ function App() {
         'https://www.canva.com/design/DAHH-fKSM9U/yqQfmF8CbZAm_CS1GE1F9A/view',
     },
   ]
+  const supaTournamentMedia = [
+    {
+      fileName: 'Triple Rumble Season 1',
+      src: '/Triple Rumble Season 1 Stinger.webm',
+      description:
+        'The first SUPA Triple Rumble stinger, introducing the battle royale format and tournament branding.',
+    },
+    {
+      fileName: 'Triple Rumble Season 2',
+      src: '/Triple Rumble Season 2 Stinger.mp4',
+      description:
+        'The second SUPA Triple Rumble stinger, continuing the tournament identity across the follow-up season.',
+    },
+    {
+      fileName: 'Clash of the Atlantic',
+      src: '/Clash of the Atlantic Stinger.webm',
+      description:
+        'A North America vs Europe tournament to support a UK-based suicide prevention charity while promoting the Beat Saber community.',
+    },
+  ]
 
   const roles = {
     Boldsquare: {
@@ -466,85 +486,150 @@ function App() {
       >
         Portfolio
       </h2>
-      <p className="mt-4 text-xs text-stone-400/90">
-            *All featured materials have been approved for public use and have been modified for ease of access.
-          </p>
+      <p className="mt-3 max-w-3xl text-sm text-stone-300 sm:text-base">
+        A compact collection of client and tournament work. Open each section to view the supporting details and media.
+      </p>
+      <p className="mt-3 text-xs text-stone-400/90">
+        *All featured materials have been approved for public use and have been modified for ease of access.
+      </p>
 
-      <div className="mt-6 grid gap-6">
-        <article className="sleek-surface rounded-3xl p-4 sm:p-6">
-          <div className="flex flex-wrap items-start justify-between gap-3">
-            <div>
-              <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">Client Advising</p>
-              <h3 className="mt-2 font-heading text-2xl text-stone-100">The Mountain Mile</h3>
-              <p className="mt-2 max-w-3xl text-sm text-stone-300">
-                The Mountain Mile Mall sought to elevate its positioning in the greater Pigeon Forge area through a clearer brand story, stronger visual identity, and more differentiated market presence. These two decks show that work from both strategic and brand expression angles.
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-5 grid gap-5 lg:grid-cols-2">
-            {portfolioDecks.map((deck) => (
-              <div key={deck.embedSrc} className="rounded-2xl border border-emerald-500/30 bg-stone-950/40 p-3 sm:p-4">
-                <div className="mb-3 flex items-start justify-between gap-3">
-                  <div>
-                    <p className="font-heading text-xl text-stone-100">{deck.title}</p>
-                    <p className="mt-1 text-sm text-stone-300">{deck.summary}</p>
-                  </div>
-                  <a
-                    href={deck.viewHref}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="swipe-btn swipe-btn--secondary"
-                  >
-                    <span className="swipe-btn__label">Open</span>
-                  </a>
-                </div>
-
-                <div className="aspect-video overflow-hidden rounded-xl border border-emerald-500/30 bg-stone-900/40">
-                  <iframe
-                    title={`${deck.title} embed`}
-                    src={deck.embedSrc}
-                    loading="lazy"
-                    allow="fullscreen"
-                    className="h-full w-full"
-                  />
-                </div>
+      <div className="mt-6 space-y-4">
+        <details className="sleek-surface overflow-hidden rounded-3xl border border-emerald-500/20">
+          <summary className="cursor-pointer list-none px-4 py-4 outline-none focus:outline-none focus-visible:outline-none sm:px-6">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">Client Advising</p>
+                <h3 className="mt-2 font-heading text-2xl text-stone-100">The Mountain Mile</h3>
+                <p className="mt-2 max-w-3xl text-sm text-stone-300">
+                  The Mountain Mile Mall sought to elevate its positioning in the greater Pigeon Forge area through a clearer brand story, stronger visual identity, and more differentiated market presence.
+                </p>
               </div>
-            ))}
-          </div>
-        </article>
+              <span className="rounded-full border border-emerald-500/30 px-4 py-1 text-2xl leading-none text-emerald-200" aria-hidden="true">
+                ↓
+              </span>
+            </div>
+          </summary>
 
-        <article className="sleek-surface rounded-3xl p-4 sm:p-6">
-          <div className="flex flex-wrap items-start justify-between gap-3">
-            <div>
-              <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">Nonprofit Strategy</p>
-              <h3 className="mt-2 font-heading text-2xl text-stone-100">Homes of Love</h3>
-              <p className="mt-2 max-w-3xl text-sm text-stone-300">
-                Homes of Love needed a release strategy for a new support box designed to help children abroad in Vietnam. This deck outlines launch positioning, audience messaging, and rollout sequencing to build awareness and participation.
+          <div className="px-4 pb-4 sm:px-6 sm:pb-6">
+            <div className="grid gap-4 lg:grid-cols-2">
+              {portfolioDecks.map((deck) => (
+                <div key={deck.embedSrc} className="rounded-2xl border border-emerald-500/30 bg-stone-950/40 p-3 sm:p-4">
+                  <div className="mb-3 flex items-start justify-between gap-3">
+                    <div>
+                      <p className="font-heading text-xl text-stone-100">{deck.title}</p>
+                      <p className="mt-1 text-sm text-stone-300">{deck.summary}</p>
+                    </div>
+                    <a
+                      href={deck.viewHref}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="swipe-btn swipe-btn--secondary"
+                    >
+                      <span className="swipe-btn__label">Open</span>
+                    </a>
+                  </div>
+
+                  <div className="aspect-video overflow-hidden rounded-xl border border-emerald-500/30 bg-stone-900/40">
+                    <iframe
+                      title={`${deck.title} embed`}
+                      src={deck.embedSrc}
+                      loading="lazy"
+                      allow="fullscreen"
+                      className="h-full w-full"
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </details>
+
+        <details className="sleek-surface overflow-hidden rounded-3xl border border-emerald-500/20">
+          <summary className="cursor-pointer list-none px-4 py-4 outline-none focus:outline-none focus-visible:outline-none sm:px-6">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">Nonprofit Strategy</p>
+                <h3 className="mt-2 font-heading text-2xl text-stone-100">Homes of Love</h3>
+                <p className="mt-2 max-w-3xl text-sm text-stone-300">
+                  A release strategy for a new support box designed to help children abroad in Vietnam.
+                </p>
+              </div>
+              <span className="rounded-full border border-emerald-500/30 px-4 py-1 text-2xl leading-none text-emerald-200" aria-hidden="true">
+                ↓
+              </span>
+            </div>
+          </summary>
+
+          <div className="px-4 pb-4 sm:px-6 sm:pb-6">
+            <div className="rounded-2xl border border-emerald-500/30 bg-stone-950/40 p-3 sm:p-4">
+              <div className="aspect-video overflow-hidden rounded-xl border border-emerald-500/30 bg-stone-900/40">
+                <iframe
+                  title="Homes of Love release strategy embed"
+                  src="https://www.canva.com/design/DAHBnMl3ASI/pK7FBtxLq_bpTVQgOPFq_g/view?embed"
+                  loading="lazy"
+                  allow="fullscreen"
+                  className="h-full w-full"
+                />
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details className="sleek-surface overflow-hidden rounded-3xl border border-emerald-500/20">
+          <summary className="cursor-pointer list-none px-4 py-4 outline-none focus:outline-none focus-visible:outline-none sm:px-6">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">Tournament Platform</p>
+                <h3 className="mt-2 font-heading text-2xl text-stone-100">Livestream Content Development (SUPA Tournaments)</h3>
+                <p className="mt-2 max-w-3xl text-sm text-stone-300">
+                  Organizer and head of content/development for a brand new tournament platform built to create experimental Beat Saber formats.
+                </p>
+              </div>
+              <span className="rounded-full border border-emerald-500/30 px-4 py-1 text-2xl leading-none text-emerald-200" aria-hidden="true">
+                ↓
+              </span>
+            </div>
+          </summary>
+
+          <div className="px-4 pb-4 sm:px-6 sm:pb-6">
+            <div className="rounded-2xl border border-emerald-500/30 bg-stone-950/30 px-4 py-3 text-sm text-stone-300">
+              <p className="font-semibold text-stone-100">Project context</p>
+              <p className="mt-2">
+                SUPA Triple Rumble is a battle royale tournament with 20 teams of three, split across two weekends. Weekend 1 is a group stage that eliminates half the field; Weekend 2 is finals week where teams are cut until only one remains. Each round uses three maps, with teams scoring as high as possible to earn points. After the three maps, the lowest scoring team is eliminated and the cycle repeats until the final two teams enter a BO9/11 3v3 match.
               </p>
             </div>
-            <a
-              href="https://www.canva.com/design/DAHH-dBnwmI/tSPej8S16j9cUtlbvKyHbw/view"
-              target="_blank"
-              rel="noreferrer"
-              className="swipe-btn swipe-btn--secondary"
-            >
-              <span className="swipe-btn__label">Open</span>
-            </a>
-          </div>
 
-          <div className="mt-5 rounded-2xl border border-emerald-500/30 bg-stone-950/40 p-3 sm:p-4">
-            <div className="aspect-video overflow-hidden rounded-xl border border-emerald-500/30 bg-stone-900/40">
-              <iframe
-                title="Homes of Love release strategy embed"
-                src="https://www.canva.com/design/DAHBnMl3ASI/pK7FBtxLq_bpTVQgOPFq_g/view?embed"
-                loading="lazy"
-                allow="fullscreen"
-                className="h-full w-full"
-              />
+            <div className="mt-4 grid gap-4 lg:grid-cols-3">
+              {supaTournamentMedia.map((media) => (
+                <article
+                  key={media.fileName}
+                  className="rounded-2xl border border-emerald-500/30 bg-stone-950/40 p-3 sm:p-4"
+                >
+                  <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">
+                    {media.title}
+                  </p>
+                  <h4 className="mt-2 font-heading text-lg text-stone-100">
+                    {media.fileName}
+                  </h4>
+                  <p className="mt-1 text-sm text-stone-300">{media.description}</p>
+
+                  <div className="mt-4 aspect-video overflow-hidden rounded-xl border border-emerald-500/30 bg-stone-900/40">
+                    <video
+                      src={media.src}
+                      className="h-full w-full object-cover object-center"
+                      autoPlay
+                      loop
+                      muted
+                      playsInline
+                      preload="metadata"
+                      controls={false}
+                    />
+                  </div>
+                </article>
+              ))}
             </div>
           </div>
-        </article>
+        </details>
       </div>
     </section>
   )
