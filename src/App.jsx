@@ -595,7 +595,7 @@ function App() {
             <div className="rounded-2xl border border-emerald-500/30 bg-stone-950/30 px-4 py-3 text-sm text-stone-300">
               <p className="font-semibold text-stone-100">Project context</p>
               <p className="mt-2">
-                SUPA Triple Rumble is a battle royale tournament with 20 teams of three, split across two weekends. Weekend 1 is a group stage that eliminates half the field; Weekend 2 is finals week where teams are cut until only one remains. Each round uses three maps, with teams scoring as high as possible to earn points. After the three maps, the lowest scoring team is eliminated and the cycle repeats until the final two teams enter a BO9/11 3v3 match.
+                SUPA Tournaments was founded by an international-wide team to experiment with the tournament scene of the highest-rated Virtual Reality game in the world: Beat Saber. In my role, I was responsible for working front-end live development, live organization, as well as creative mockups. Below are all projects we worked on as a team with asset visuals. Additional visuals and overlays can be given upon request.
               </p>
             </div>
 
