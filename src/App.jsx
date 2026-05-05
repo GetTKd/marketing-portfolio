@@ -1,7 +1,7 @@
 // npm run dev -- --host 0.0.0.0 --port 5173
 
 import { useEffect, useState } from 'react'
-import headshotImage from '../Hayden-22.jpeg'
+const headshotImage = '/Headshot.jpeg'
 
 const pageLinks = [
   { id: 'home', label: 'Overview' },
@@ -252,7 +252,7 @@ function App() {
                 decoding="async"
                 width="900"
                 height="1125"
-                className="h-full w-full object-cover object-top"
+                className="h-full w-full object-cover object-center"
               />
             </div>
 
