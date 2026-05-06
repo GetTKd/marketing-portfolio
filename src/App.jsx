@@ -14,15 +14,6 @@ const pageLinks = [
 
 const getPathForPage = (page) => (page === 'home' ? '/' : `/${page}`)
 
-const scrollToContact = () => {
-  window.requestAnimationFrame(() => {
-    const contactSection = document.getElementById('contact')
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }
-  })
-}
-
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeRole, setActiveRole] = useState('Boldsquare')
@@ -30,6 +21,7 @@ function App() {
   const [typedHeading, setTypedHeading] = useState('')
   const [headerOpacity, setHeaderOpacity] = useState(0.5)
   const [headerHovered, setHeaderHovered] = useState(false)
+  const [lightboxMedia, setLightboxMedia] = useState(null)
 
   const heroHeading = "Hey! I'm Hayden."
   const resumeViewPath = '/resume.pdf'
@@ -119,6 +111,28 @@ function App() {
     },
   }
 
+  const emergingLeadersFeature = {
+    title: 'Emerging Leaders - ELPS 310',
+    subtitle: 'Spring 2026 Cohort',
+    body: 'Emerging Leaders is a 3-credit elective in the Leadership Studies Minor that is open to all students. The course studies leadership theories and leadership application while building emotionally intelligent leaders through class discussion, application, and an off-campus leadership experience.',
+    details: [
+      'Eligibility is limited to full-time sophomores in good academic standing with a minimum 2.5 GPA.',
+      'The Spring 2026 cohort includes an interview-based application process and a mandatory March 2026 trip.',
+      'Course topics include change, emotional intelligence, and adaptive leadership.',
+    ],
+    imageSrc: '/University%20Systems.png',
+    imageAlt: 'Emerging Leaders project poster about student tech advocacy',
+    result: 'Portfolio showcase: Revisiting Student Tech Advocacy',
+  }
+
+  const openLightbox = (media) => {
+    setLightboxMedia(media)
+  }
+
+  const closeLightbox = () => {
+    setLightboxMedia(null)
+  }
+
   useEffect(() => {
     // Handle 404.html redirect for direct URL access on GitHub Pages
     const redirect = sessionStorage.redirect
@@ -127,6 +141,25 @@ function App() {
       window.history.replaceState({}, '', redirect)
     }
   }, [])
+
+  useEffect(() => {
+    if (!lightboxMedia) return undefined
+
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape') {
+        closeLightbox()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [lightboxMedia])
 
   useEffect(() => {
     const syncPageFromPath = (replaceInvalid = false) => {
@@ -142,13 +175,7 @@ function App() {
         return
       }
 
-      if (nextPage === 'contact') {
-        setActivePage('home')
-        scrollToContact()
-      } else {
-        setActivePage(nextPage)
-      }
-
+      setActivePage(nextPage)
       setMenuOpen(false)
     }
 
@@ -170,11 +197,8 @@ function App() {
       window.history.pushState({}, '', nextPath)
     }
 
-    if (page === 'contact') {
-      setActivePage('home')
-      scrollToContact()
-    } else {
-      setActivePage(page)
+    setActivePage(page)
+    if (page !== 'contact') {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }
 
@@ -220,15 +244,88 @@ function App() {
     }
   }, [activePage])
 
+  const renderLightbox = () => {
+    if (!lightboxMedia) return null
+
+    return (
+      <div
+        className="media-lightbox fixed inset-0 z-[100] flex items-center justify-center bg-stone-950/80 px-4 py-8 backdrop-blur-md"
+        role="presentation"
+        onClick={closeLightbox}
+      >
+        <div
+          className="media-lightbox__panel relative w-full max-w-5xl rounded-3xl border border-emerald-500/30 bg-stone-950/95 p-3 shadow-[0_30px_80px_rgba(0,0,0,0.65)] sm:p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-label={lightboxMedia.title}
+          onClick={(event) => event.stopPropagation()}
+        >
+          <button
+            type="button"
+            className="absolute right-4 top-4 z-10 rounded-full border border-emerald-500/30 bg-stone-950/90 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-stone-100 transition hover:border-emerald-300 hover:text-emerald-200"
+            onClick={closeLightbox}
+          >
+            Close
+          </button>
+
+          <div className="overflow-hidden rounded-2xl border border-emerald-500/20 bg-black/50">
+            {lightboxMedia.type === 'image' ? (
+              <img
+                src={lightboxMedia.src}
+                alt={lightboxMedia.alt}
+                className="block max-h-[82vh] w-full object-contain"
+              />
+            ) : lightboxMedia.type === 'video' ? (
+              <video
+                src={lightboxMedia.src}
+                className="block max-h-[82vh] w-full bg-black object-contain"
+                controls
+                autoPlay
+                muted
+                playsInline
+              />
+            ) : (
+              <div className="aspect-video w-full">
+                <iframe
+                  title={lightboxMedia.title}
+                  src={lightboxMedia.src}
+                  loading="lazy"
+                  allow="fullscreen"
+                  className="h-full w-full"
+                />
+              </div>
+            )}
+          </div>
+
+          <div className="mt-4 flex flex-wrap items-start justify-between gap-3 px-1 pb-1">
+            <div>
+              <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">
+                {lightboxMedia.kicker}
+              </p>
+              <h3 className="mt-2 font-heading text-2xl text-stone-100">
+                {lightboxMedia.title}
+              </h3>
+            </div>
+            {lightboxMedia.caption ? (
+              <p className="max-w-xl text-sm text-stone-300">
+                {lightboxMedia.caption}
+              </p>
+            ) : null}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   const renderOverviewPage = () => (
-    <>
-      <section className="grid items-center gap-10 pb-14 pt-10 md:grid-cols-[1.05fr_0.95fr]">
+    <section className="flex min-h-[calc(100vh-11rem)] items-center pb-14 pt-8 sm:pt-10">
+      <div className="grid w-full items-center gap-6 sm:gap-8 md:gap-10 md:grid-cols-[1.05fr_0.95fr]">
         <div className="space-y-6">
           <p className="inline-flex rounded-full border border-emerald-500/40 bg-emerald-500/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-200">
             Client-facing marketing strategy that's stress-free
           </p>
           <h1
-            className="headline-reveal font-heading text-4xl leading-tight text-stone-100 sm:text-5xl lg:text-6xl"
+            className="headline-reveal font-heading text-3xl leading-tight text-stone-100 xs:text-4xl sm:text-5xl lg:text-6xl"
             style={{ animationDelay: '80ms' }}
           >
             {typedHeading}
@@ -237,7 +334,7 @@ function App() {
               className="typing-caret ml-1 inline-block h-[0.95em] w-[2px] bg-emerald-300 align-[-0.08em]"
             />
           </h1>
-          <p className="max-w-xl text-base text-stone-300 sm:text-lg">
+          <p className="max-w-xl text-sm text-stone-300 sm:text-base lg:text-lg">
             With a broad spectrum of experience across agency execution, consumer insights, student engagement, and event leadership, I bring a versatile skill set to marketing challenges. I'm passionate about applying data-driven insights and creative problem-solving to help organizations connect with their audiences effectively while simulataneously keeping sales pipelines cohesive and intuitive.
           </p>
           <div className="action-stack">
@@ -260,16 +357,6 @@ function App() {
                 Download
               </a>
             </div>
-            <a
-              href="/contact"
-              className="swipe-btn swipe-btn--tertiary"
-              onClick={(event) => {
-                event.preventDefault()
-                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
-              }}
-            >
-              <span className="swipe-btn__label">Contact Me</span>
-            </a>
           </div>
         </div>
 
@@ -291,78 +378,41 @@ function App() {
               <div className="logo-slider-track">
                 {[...companyLogos, ...companyLogos].map((logo, index) => (
                   <div key={`${logo.name}-${index}`} className="logo-pill">
-                    <img
-                      src={logo.src}
-                      alt={logo.name}
-                      className="logo-pill__img"
-                    />
+                    <button
+                      type="button"
+                      className="logo-pill__button"
+                      aria-label={`View ${logo.name} logo larger`}
+                      onClick={() =>
+                        openLightbox({
+                          type: 'image',
+                          src: logo.src,
+                          alt: logo.name,
+                          title: logo.name,
+                          kicker: 'Brand logo',
+                          caption: 'Logo asset shown in the rotating client strip.',
+                        })
+                      }
+                    >
+                      <img
+                        src={logo.src}
+                        alt={logo.name}
+                        className="logo-pill__img"
+                      />
+                    </button>
                   </div>
                 ))}
               </div>
             </div>
           </div>
         </div>
-      </section>
-
-      <section className="pb-14">
-        <h2
-          className="headline-reveal font-heading text-3xl text-stone-100 sm:text-4xl"
-          style={{ animationDelay: '180ms' }}
-        >
-          What I offer
-        </h2>
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
-          {[
-            {
-              title: 'Marketing Strategy',
-              text: 'Audience-aware messaging, project planning, and campaign positioning backed by client context.',
-              page: 'experience',
-            },
-            {
-              title: 'Consumer Insights',
-              text: 'Survey design, trend analysis, and recommendation frameworks informed by data and modeling.',
-              page: 'experience',
-            },
-            {
-              title: 'Leadership Execution',
-              text: 'Event architecture, engagement systems, and practical operations across student organizations.',
-              page: 'leadership',
-            },
-            {
-              title: 'Professional Presence',
-              text: 'Tour leadership, stakeholder communication, and polished presentation delivery under deadlines.',
-              page: 'leadership',
-            },
-          ].map((item) => (
-            <article
-              key={item.title}
-              className="sleek-surface group rounded-2xl p-5 transition hover:-translate-y-1 hover:border-emerald-300"
-            >
-              <p className="font-heading text-xl text-stone-100">{item.title}</p>
-              <p className="mt-3 text-sm text-stone-300">{item.text}</p>
-              <a
-                href={getPathForPage(item.page)}
-                className="mt-4 inline-block text-sm font-semibold text-emerald-300 underline underline-offset-4"
-                onClick={(event) => {
-                  event.preventDefault()
-                  navigateToPage(item.page)
-                }}
-              >
-                Explore this in detail
-              </a>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      {renderContactPage()}
-    </>
+      </div>
+    </section>
   )
 
   const renderEducationPage = () => (
     <section className="pb-14 pt-10">
       <h2
-        className="headline-reveal font-heading text-3xl text-stone-100 sm:text-4xl"
+        className="headline-reveal font-heading text-2xl text-stone-100 sm:text-3xl md:text-4xl"
         style={{ animationDelay: '120ms' }}
       >
         Education Details
@@ -402,7 +452,7 @@ function App() {
   const renderExperiencePage = () => (
     <section className="pb-14 pt-10">
       <h2
-        className="headline-reveal font-heading text-3xl text-stone-100 sm:text-4xl"
+        className="headline-reveal font-heading text-2xl text-stone-100 sm:text-3xl md:text-4xl"
         style={{ animationDelay: '120ms' }}
       >
         Experience Details
@@ -411,7 +461,7 @@ function App() {
         <p className="text-xs uppercase tracking-[0.16em] text-stone-400">
           Professional Experience
         </p>
-        <div className="mt-5 grid gap-5 md:grid-cols-[240px_1fr]">
+        <div className="mt-5 grid gap-4 sm:gap-5 md:grid-cols-[240px_1fr]">
           <div className="action-stack max-w-none">
             {Object.keys(roles).map((role) => (
               <button
@@ -454,12 +504,64 @@ function App() {
   const renderLeadershipPage = () => (
     <section className="pb-14 pt-10">
       <h2
-        className="headline-reveal font-heading text-3xl text-stone-100 sm:text-4xl"
+        className="headline-reveal font-heading text-2xl text-stone-100 sm:text-3xl md:text-4xl"
         style={{ animationDelay: '120ms' }}
       >
         Leadership Details
       </h2>
-      <div className="mt-6 grid gap-4 md:grid-cols-2">
+      <div className="sleek-surface mt-6 overflow-hidden rounded-3xl border border-emerald-500/20 p-4 sm:p-5 md:p-6">
+        <div className="grid gap-4 sm:gap-5 lg:gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+          <div>
+            <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">
+              {emergingLeadersFeature.subtitle}
+            </p>
+            <h3 className="mt-2 font-heading text-xl text-stone-100 sm:text-2xl md:text-3xl">
+              {emergingLeadersFeature.title}
+            </h3>
+            <p className="mt-3 text-sm text-stone-300 sm:text-base">
+              {emergingLeadersFeature.body}
+            </p>
+            <div className="mt-4 space-y-3">
+              {emergingLeadersFeature.details.map((detail) => (
+                <p
+                  key={detail}
+                  className="rounded-xl border border-emerald-500/20 bg-stone-900/45 px-4 py-3 text-sm text-stone-200"
+                >
+                  {detail}
+                </p>
+              ))}
+            </div>
+            <p className="mt-4 text-sm font-semibold text-emerald-300">
+              {emergingLeadersFeature.result}
+            </p>
+          </div>
+
+          <button
+            type="button"
+            className="group overflow-hidden rounded-2xl border border-emerald-500/30 bg-stone-950/40 text-left transition hover:-translate-y-0.5 hover:border-emerald-300"
+            aria-label="View Emerging Leaders poster larger"
+            onClick={() =>
+              openLightbox({
+                type: 'image',
+                src: emergingLeadersFeature.imageSrc,
+                alt: emergingLeadersFeature.imageAlt,
+                title: emergingLeadersFeature.title,
+                kicker: emergingLeadersFeature.subtitle,
+                caption: emergingLeadersFeature.result,
+              })
+            }
+          >
+            <img
+              src={emergingLeadersFeature.imageSrc}
+              alt={emergingLeadersFeature.imageAlt}
+              loading="lazy"
+              decoding="async"
+              className="block h-auto w-full object-contain"
+            />
+          </button>
+        </div>
+      </div>
+      <div className="mt-6 grid gap-3 sm:gap-4 md:grid-cols-2">
         {[
           {
             title: 'Business Honors Council - Advisory Council Member',
@@ -478,7 +580,7 @@ function App() {
             key={item.title}
             className="sleek-surface rounded-2xl p-5"
           >
-            <p className="font-heading text-xl text-stone-100">{item.title}</p>
+            <p className="font-heading text-lg text-stone-100 sm:text-xl">{item.title}</p>
             <p className="mt-2 text-sm text-stone-300">{item.body}</p>
             <p className="mt-4 text-sm font-semibold text-emerald-300">
               {item.result}
@@ -490,14 +592,14 @@ function App() {
   )
 
   const renderPortfolioPage = () => (
-    <section className="pb-14 pt-10">
+    <section className="pb-14 pt-8 sm:pt-10">
       <h2
-        className="headline-reveal font-heading text-3xl text-stone-100 sm:text-4xl"
+        className="headline-reveal font-heading text-2xl text-stone-100 sm:text-3xl md:text-4xl"
         style={{ animationDelay: '120ms' }}
       >
         Portfolio
       </h2>
-      <p className="mt-3 max-w-3xl text-sm text-stone-300 sm:text-base">
+      <p className="mt-3 max-w-3xl text-xs text-stone-300 sm:text-sm md:text-base">
         A compact collection of client and tournament work. Open each section to view the supporting details and media.
       </p>
       <p className="mt-3 text-xs text-stone-400/90">
@@ -510,7 +612,7 @@ function App() {
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
                 <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">Product Strategy</p>
-                <h3 className="mt-2 font-heading text-2xl text-stone-100">Ascendco</h3>
+                <h3 className="mt-2 font-heading text-lg sm:text-xl md:text-2xl text-stone-100">Ascendco</h3>
                 <p className="mt-2 max-w-3xl text-sm text-stone-300">
                   Naming strategy and launch campaign for a sterile hardware processing software with embedded artificial intelligence capabilities.
                 </p>
@@ -522,13 +624,26 @@ function App() {
           </summary>
 
           <div className="px-4 pb-4 sm:px-6 sm:pb-6">
-            <div className="grid gap-4 lg:grid-cols-[1fr_3fr]">
-              <div className="rounded-2xl border border-emerald-500/30 bg-stone-950/40 p-3 sm:p-4 flex flex-col">
-                <p className="font-heading text-lg text-stone-100 mb-3">Sizzle Post Mockup</p>
-                <div className="flex-1 flex items-center justify-center bg-stone-900/40 rounded-xl border border-emerald-500/30 p-2 overflow-hidden">
+            <div className="grid gap-3 sm:gap-4 lg:grid-cols-[1fr_3fr]">
+              <div className="rounded-2xl border border-emerald-500/30 bg-stone-950/40 p-2 sm:p-3 md:p-4 flex flex-col">
+                <p className="font-heading text-base sm:text-lg text-stone-100 mb-2 sm:mb-3">Sizzle Post Mockup</p>
+                <button
+                  type="button"
+                  className="group relative flex-1 overflow-hidden rounded-xl border border-emerald-500/30 bg-stone-900/40 p-2 text-left transition hover:border-emerald-300"
+                  aria-label="View Ascendco mockup larger"
+                  onClick={() =>
+                    openLightbox({
+                      type: 'video',
+                      src: '/Ascendco Mockup.mp4',
+                      title: 'Ascendco Sizzle Post Mockup',
+                      kicker: 'Portfolio video',
+                      caption: 'A looping mockup used in the Ascendco launch strategy.',
+                    })
+                  }
+                >
                   <video
                     src="/Ascendco Mockup.mp4"
-                    className="w-auto h-full scale-125 rounded-lg"
+                    className="pointer-events-none w-auto h-full scale-125 rounded-lg"
                     autoPlay
                     loop
                     muted
@@ -536,20 +651,35 @@ function App() {
                     preload="metadata"
                     controls={false}
                   />
-                </div>
+                  <span className="absolute inset-0 bg-gradient-to-t from-black/28 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
+                </button>
               </div>
 
-              <div className="rounded-2xl border border-emerald-500/30 bg-stone-950/40 p-3 sm:p-4">
-                <p className="font-heading text-lg text-stone-100 mb-3">Launch Strategy Pitch</p>
-                <div className="aspect-video overflow-hidden rounded-xl border border-emerald-500/30 bg-stone-900/40">
+              <div className="rounded-2xl border border-emerald-500/30 bg-stone-950/40 p-2 sm:p-3 md:p-4">
+                <p className="font-heading text-base sm:text-lg text-stone-100 mb-2 sm:mb-3">Launch Strategy Pitch</p>
+                <button
+                  type="button"
+                  className="group relative aspect-video overflow-hidden rounded-xl border border-emerald-500/30 bg-stone-900/40 text-left transition hover:border-emerald-300"
+                  aria-label="View Ascendco launch strategy pitch larger"
+                  onClick={() =>
+                    openLightbox({
+                      type: 'embed',
+                      src: 'https://www.canva.com/design/DAHI5GC2Qbs/GBW1o1R9l84RFwVhiqvcUA/view?embed',
+                      title: 'Ascendco launch strategy pitch',
+                      kicker: 'Portfolio deck',
+                      caption: 'The embedded pitch deck opens larger in the lightbox.',
+                    })
+                  }
+                >
                   <iframe
                     title="Ascendco launch strategy pitch embed"
                     src="https://www.canva.com/design/DAHI5GC2Qbs/GBW1o1R9l84RFwVhiqvcUA/view?embed"
                     loading="lazy"
                     allow="fullscreen"
-                    className="h-full w-full"
+                    className="pointer-events-none h-full w-full"
                   />
-                </div>
+                  <span className="absolute inset-0 bg-gradient-to-t from-black/28 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
+                </button>
               </div>
             </div>
           </div>
@@ -572,13 +702,13 @@ function App() {
           </summary>
 
           <div className="px-4 pb-4 sm:px-6 sm:pb-6">
-            <div className="grid gap-4 lg:grid-cols-2">
+            <div className="grid gap-3 sm:gap-4 lg:grid-cols-2">
               {portfolioDecks.map((deck) => (
-                <div key={deck.embedSrc} className="rounded-2xl border border-emerald-500/30 bg-stone-950/40 p-3 sm:p-4">
-                  <div className="mb-3 flex items-start justify-between gap-3">
+                <div key={deck.embedSrc} className="rounded-2xl border border-emerald-500/30 bg-stone-950/40 p-2 sm:p-3 md:p-4">
+                  <div className="mb-2 sm:mb-3 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-3">
                     <div>
-                      <p className="font-heading text-xl text-stone-100">{deck.title}</p>
-                      <p className="mt-1 text-sm text-stone-300">{deck.summary}</p>
+                      <p className="font-heading text-base sm:text-lg md:text-xl text-stone-100">{deck.title}</p>
+                      <p className="mt-1 text-xs sm:text-sm text-stone-300">{deck.summary}</p>
                     </div>
                     <a
                       href={deck.viewHref}
@@ -590,15 +720,29 @@ function App() {
                     </a>
                   </div>
 
-                  <div className="aspect-video overflow-hidden rounded-xl border border-emerald-500/30 bg-stone-900/40">
+                  <button
+                    type="button"
+                    className="group relative aspect-video overflow-hidden rounded-xl border border-emerald-500/30 bg-stone-900/40 text-left transition hover:border-emerald-300"
+                    aria-label={`View ${deck.title} larger`}
+                    onClick={() =>
+                      openLightbox({
+                        type: 'embed',
+                        src: deck.embedSrc,
+                        title: deck.title,
+                        kicker: 'Portfolio deck',
+                        caption: deck.summary,
+                      })
+                    }
+                  >
                     <iframe
                       title={`${deck.title} embed`}
                       src={deck.embedSrc}
                       loading="lazy"
                       allow="fullscreen"
-                      className="h-full w-full"
+                      className="pointer-events-none h-full w-full"
                     />
-                  </div>
+                    <span className="absolute inset-0 bg-gradient-to-t from-black/28 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
+                  </button>
                 </div>
               ))}
             </div>
@@ -622,16 +766,30 @@ function App() {
           </summary>
 
           <div className="px-4 pb-4 sm:px-6 sm:pb-6">
-            <div className="rounded-2xl border border-emerald-500/30 bg-stone-950/40 p-3 sm:p-4">
-              <div className="aspect-video overflow-hidden rounded-xl border border-emerald-500/30 bg-stone-900/40">
+            <div className="rounded-2xl border border-emerald-500/30 bg-stone-950/40 p-2 sm:p-3 md:p-4">
+              <button
+                type="button"
+                className="group relative w-full aspect-video overflow-hidden rounded-xl border border-emerald-500/30 bg-stone-900/40 text-left transition hover:border-emerald-300"
+                aria-label="View Homes of Love release strategy larger"
+                onClick={() =>
+                  openLightbox({
+                    type: 'embed',
+                    src: 'https://www.canva.com/design/DAHBnMl3ASI/pK7FBtxLq_bpTVQgOPFq_g/view?embed',
+                    title: 'Homes of Love release strategy',
+                    kicker: 'Portfolio deck',
+                    caption: 'The embedded nonprofit strategy deck opens larger in the lightbox.',
+                  })
+                }
+              >
                 <iframe
                   title="Homes of Love release strategy embed"
                   src="https://www.canva.com/design/DAHBnMl3ASI/pK7FBtxLq_bpTVQgOPFq_g/view?embed"
                   loading="lazy"
                   allow="fullscreen"
-                  className="h-full w-full"
+                  className="pointer-events-none h-full w-full"
                 />
-              </div>
+                <span className="absolute inset-0 bg-gradient-to-t from-black/28 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
+              </button>
             </div>
           </div>
         </details>
@@ -660,24 +818,37 @@ function App() {
               </p>
             </div>
 
-            <div className="mt-4 grid gap-4 lg:grid-cols-3">
+            <div className="mt-4 grid gap-3 sm:gap-4 lg:grid-cols-3">
               {supaTournamentMedia.map((media) => (
                 <article
                   key={media.fileName}
-                  className="rounded-2xl border border-emerald-500/30 bg-stone-950/40 p-3 sm:p-4"
+                  className="rounded-2xl border border-emerald-500/30 bg-stone-950/40 p-2 sm:p-3 md:p-4"
                 >
                   <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">
-                    {media.title}
+                    Tournament Media
                   </p>
-                  <h4 className="mt-2 font-heading text-lg text-stone-100">
+                  <h4 className="mt-2 font-heading text-base sm:text-lg text-stone-100">
                     {media.fileName}
                   </h4>
                   <p className="mt-1 text-sm text-stone-300">{media.description}</p>
 
-                  <div className="mt-4 aspect-video overflow-hidden rounded-xl border border-emerald-500/30 bg-stone-900/40">
+                  <button
+                    type="button"
+                    className="group relative mt-4 aspect-video overflow-hidden rounded-xl border border-emerald-500/30 bg-stone-900/40 text-left transition hover:border-emerald-300"
+                    aria-label={`View ${media.fileName} larger`}
+                    onClick={() =>
+                      openLightbox({
+                        type: 'video',
+                        src: media.src,
+                        title: media.fileName,
+                        kicker: 'Tournament video',
+                        caption: media.description,
+                      })
+                    }
+                  >
                     <video
                       src={media.src}
-                      className="h-full w-full object-cover object-center"
+                      className="pointer-events-none h-full w-full object-cover object-center"
                       autoPlay
                       loop
                       muted
@@ -685,7 +856,8 @@ function App() {
                       preload="metadata"
                       controls={false}
                     />
-                  </div>
+                    <span className="absolute inset-0 bg-gradient-to-t from-black/28 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
+                  </button>
                 </article>
               ))}
             </div>
@@ -699,22 +871,22 @@ function App() {
   const renderContactPage = () => (
     <section
       id="contact"
-      className="mt-10 rounded-3xl border border-stone-800 bg-stone-900/95 px-6 py-10 text-white shadow-xl shadow-stone-900/30 sm:px-8"
+      className="mt-8 sm:mt-10 rounded-3xl border border-stone-800 bg-stone-900/95 px-4 py-8 sm:px-6 sm:py-10 md:px-8 text-white shadow-xl shadow-stone-900/30"
     >
       <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">
         How can I help your business?
       </p>
       <h2
-        className="headline-reveal mt-3 font-heading text-3xl sm:text-4xl"
+        className="headline-reveal mt-3 font-heading text-2xl sm:text-3xl md:text-4xl"
         style={{ animationDelay: '100ms' }}
       >
         Open to internships, mentorship, and marketing opportunities.
       </h2>
-      <p className="mt-3 max-w-2xl text-stone-300">
+      <p className="mt-3 max-w-2xl text-sm sm:text-base text-stone-300">
         Reach out by email or LinkedIn to discuss internships, team projects,
         speaking opportunities, or career pathways in marketing and business.
       </p>
-      <div className="mt-6 grid max-w-xl gap-3 sm:grid-cols-2">
+      <div className="mt-6 grid max-w-xl gap-3 grid-cols-1 xs:grid-cols-2">
         <a
           href="mailto:hayden.cornett06@gmail.com"
           className="swipe-btn swipe-btn--primary"
@@ -734,20 +906,23 @@ function App() {
   )
 
   const renderPage = () => {
+    if (activePage === 'home') return renderOverviewPage()
     if (activePage === 'experience') return renderExperiencePage()
     if (activePage === 'education') return renderEducationPage()
     if (activePage === 'leadership') return renderLeadershipPage()
     if (activePage === 'portfolio') return renderPortfolioPage()
-    return renderOverviewPage()
+    if (activePage === 'contact') return renderContactPage()
   }
 
-  const activeNavPage = window.location.pathname === '/contact' ? 'contact' : activePage
+  const activeNavPage = activePage
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_15%_10%,#1c1917_0,#111827_48%,#0a0a0a_100%)] text-stone-100">
       <div className="dot-pattern-bg pointer-events-none absolute inset-0" />
       <div className="pointer-events-none absolute left-0 top-0 h-72 w-72 -translate-x-1/3 -translate-y-1/4 rounded-full bg-emerald-500/30 blur-3xl" />
       <div className="pointer-events-none absolute bottom-0 right-0 h-80 w-80 translate-x-1/4 translate-y-1/4 rounded-full bg-emerald-400/20 blur-3xl" />
+
+      {renderLightbox()}
 
       <header 
         className="fixed left-0 right-0 bottom-6 flex justify-center z-50 transition-all duration-300 px-4 sm:px-6 lg:px-8"
@@ -758,10 +933,10 @@ function App() {
         onMouseEnter={() => setHeaderHovered(true)}
         onMouseLeave={() => setHeaderHovered(false)}
       >
-        <div className="glass-card animate-fade-in rounded-2xl border border-emerald-500/30 px-6 py-3 shadow-[0_18px_42px_rgba(0,0,0,0.45)] sm:px-8 w-fit">
+        <div className="glass-card animate-fade-in rounded-2xl border border-emerald-500/30 px-4 py-2 shadow-[0_18px_42px_rgba(0,0,0,0.45)] sm:px-6 sm:py-3 md:px-8 w-fit">
           <div className="flex items-center justify-center">
           <nav className="hidden items-center gap-8 text-base font-medium text-stone-300 md:flex">
-            {pageLinks.filter((link) => link.id !== 'contact').map((link) => (
+            {pageLinks.map((link) => (
               <a
                 key={link.id}
                 href={getPathForPage(link.id)}
@@ -794,7 +969,7 @@ function App() {
           </nav>
 
           <button
-            className="sleek-outline absolute right-4 inline-flex items-center rounded-full px-3 py-1.5 text-sm font-semibold transition md:hidden"
+            className="sleek-outline absolute right-2 sm:right-4 inline-flex items-center rounded-full px-2 sm:px-3 py-1 sm:py-1.5 text-xs sm:text-sm font-semibold transition md:hidden"
             onClick={() => setMenuOpen((open) => !open)}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
@@ -810,12 +985,13 @@ function App() {
             menuOpen ? 'mt-3 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0',
           ].join(' ')}
         >
-          <nav className="min-h-0 space-y-2 border-t border-emerald-500/30 pt-3 text-sm font-medium text-stone-300">
-            {pageLinks.filter((link) => link.id !== 'contact').map((link) => (
+          <nav className="min-h-0 space-y-1.5 border-t border-emerald-500/30 pt-2 text-xs sm:text-sm font-medium text-stone-300">
+            {pageLinks.map((link) => (
               <a
                 key={link.id}
                 className={[
-                  'block rounded-lg px-2 py-1.5 transition',
+                  'block rounded-lg px-2 py-1 sm:py-1.5 transition',
+                  'text-xs sm:text-sm',
                   activeNavPage === link.id
                     ? 'bg-emerald-500/20 text-emerald-200'
                     : 'hover:bg-emerald-500/10',
