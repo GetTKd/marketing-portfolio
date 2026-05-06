@@ -4,17 +4,10 @@
     <meta charset="utf-8">
     <title>Redirecting...</title>
     <script type="text/javascript">
-      // Redirect all non-existent routes to index.html with the original path preserved
-      const path = window.location.pathname;
-      const segments = path.split('/').filter(seg => seg);
-      
-      // If there are route segments, redirect to home with the route in the path
-      if (segments.length > 0 && segments[0] !== 'index.html') {
-        window.location.replace('/' + segments.join('/'));
-      } else {
-        window.location.replace('/');
-      }
+      // Store the requested path in sessionStorage and redirect to home
+      sessionStorage.redirect = window.location.pathname;
     </script>
+    <meta http-equiv="refresh" content="0;URL='/'" />
   </head>
   <body>
   </body>

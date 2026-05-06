@@ -120,7 +120,12 @@ function App() {
   }
 
   useEffect(() => {
-    // Scroll handler removed - dock stays at bottom
+    // Handle 404.html redirect for direct URL access on GitHub Pages
+    const redirect = sessionStorage.redirect
+    if (redirect) {
+      delete sessionStorage.redirect
+      window.history.replaceState({}, '', redirect)
+    }
   }, [])
 
   useEffect(() => {
