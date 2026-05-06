@@ -504,6 +504,56 @@ function App() {
           <summary className="cursor-pointer list-none px-4 py-4 outline-none focus:outline-none focus-visible:outline-none sm:px-6">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
+                <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">Product Strategy</p>
+                <h3 className="mt-2 font-heading text-2xl text-stone-100">Ascendco</h3>
+                <p className="mt-2 max-w-3xl text-sm text-stone-300">
+                  Naming strategy and launch campaign for a sterile hardware processing software with embedded artificial intelligence capabilities.
+                </p>
+              </div>
+              <span className="rounded-full border border-emerald-500/30 px-4 py-1 text-2xl leading-none text-emerald-200" aria-hidden="true">
+                ↓
+              </span>
+            </div>
+          </summary>
+
+          <div className="px-4 pb-4 sm:px-6 sm:pb-6">
+            <div className="grid gap-4 lg:grid-cols-[1fr_3fr]">
+              <div className="rounded-2xl border border-emerald-500/30 bg-stone-950/40 p-3 sm:p-4 flex flex-col">
+                <p className="font-heading text-lg text-stone-100 mb-3">Sizzle Post Mockup</p>
+                <div className="flex-1 flex items-center justify-center bg-stone-900/40 rounded-xl border border-emerald-500/30 p-2 overflow-hidden">
+                  <video
+                    src="/Ascendco Mockup.mp4"
+                    className="w-auto h-full scale-125 rounded-lg"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="metadata"
+                    controls={false}
+                  />
+                </div>
+              </div>
+
+              <div className="rounded-2xl border border-emerald-500/30 bg-stone-950/40 p-3 sm:p-4">
+                <p className="font-heading text-lg text-stone-100 mb-3">Launch Strategy Pitch</p>
+                <div className="aspect-video overflow-hidden rounded-xl border border-emerald-500/30 bg-stone-900/40">
+                  <iframe
+                    title="Ascendco launch strategy pitch embed"
+                    src="https://www.canva.com/design/DAHI5GC2Qbs/GBW1o1R9l84RFwVhiqvcUA/view?embed"
+                    loading="lazy"
+                    allow="fullscreen"
+                    className="h-full w-full"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <details className="sleek-surface overflow-hidden rounded-3xl border border-emerald-500/20">
+          <summary className="cursor-pointer list-none px-4 py-4 outline-none focus:outline-none focus-visible:outline-none sm:px-6">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
                 <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">Client Advising</p>
                 <h3 className="mt-2 font-heading text-2xl text-stone-100">The Mountain Mile</h3>
                 <p className="mt-2 max-w-3xl text-sm text-stone-300">
