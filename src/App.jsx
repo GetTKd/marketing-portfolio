@@ -77,9 +77,9 @@ function App() {
       location: 'Knoxville, TN',
       timeline: 'Jan 2026 - Present',
       bullets: [
-        'Apply theoretical marketing knowledge in an Inc. 500 communications firm across project management, business development, and social media strategy.',
-        'Manage full-cycle projects for non-profit and for-profit clients, including budget management, creative execution, and final business pitches.',
-        'Earned a specialized MarTech certification to validate technical proficiency.',
+        'Apply theoretical marketing knowledge across project management, business development, and social media strategy at an Inc. 500 communications firm.',
+        'Manage full-cycle projects for nonprofit and for-profit clients, including budget management, creative execution, and final business pitches.',
+        'Completed a specialized MarTech certification to validate technical proficiency.',
       ],
     },
     'GE Appliances': {
@@ -87,7 +87,7 @@ function App() {
       location: 'Louisville, KY',
       timeline: 'May 2026 - Aug 2026',
       bullets: [
-        'Contributing to the national sales funnel of a $3B home microenterprise to help shape brand differentiation.',
+        'Contribute to the national sales funnel of a $3B home appliance company, helping shape brand differentiation.',
       ],
     },
     'UT Ambassador': {
@@ -95,9 +95,9 @@ function App() {
       location: 'Knoxville, TN',
       timeline: 'Feb 2025 - Present',
       bullets: [
-        'Selected as 1 of 634 applicants (6% acceptance rate) to lead campus tours for 15-35 prospective students and families.',
-        'Tailor messaging to audience needs, supporting stronger engagement during recruitment events.',
-        'Host 2+ events such as Big Orange Preview and Rocky Top Tailgate for hands-on campus experiences.',
+        'Selected from 634 applicants (6% acceptance rate) to lead campus tours for 15-35 prospective students and families.',
+        'Tailor messaging to audience needs to strengthen engagement during recruitment events.',
+        'Host 2+ events, including Big Orange Preview and Rocky Top Tailgate, to create hands-on campus experiences.',
       ],
     },
     'Beats by Dre': {
@@ -114,15 +114,15 @@ function App() {
   const emergingLeadersFeature = {
     title: 'Emerging Leaders - ELPS 310',
     subtitle: 'Spring 2026 Cohort',
-    body: 'Emerging Leaders is a 3-credit elective in the Leadership Studies Minor that is open to all students. The course studies leadership theories and leadership application while building emotionally intelligent leaders through class discussion, application, and an off-campus leadership experience.',
+    body: 'Emerging Leaders is a 3-credit elective in the Leadership Studies minor that is open to all students. The course explores leadership theory and application while building emotionally intelligent leaders through class discussion, applied learning, and an off-campus leadership experience.',
     details: [
       'Eligibility is limited to full-time sophomores in good academic standing with a minimum 2.5 GPA.',
       'The Spring 2026 cohort includes an interview-based application process and a mandatory March 2026 trip.',
-      'Course topics include change, emotional intelligence, and adaptive leadership.',
+      'Course topics include change management, emotional intelligence, and adaptive leadership.',
     ],
     imageSrc: '/University%20Systems.png',
-    imageAlt: 'Emerging Leaders project poster about student tech advocacy',
-    result: 'Portfolio showcase: Revisiting Student Tech Advocacy',
+    imageAlt: 'Emerging Leaders project poster about student technology advocacy',
+    result: 'Portfolio showcase: Revisiting student technology advocacy',
   }
 
   const openLightbox = (media) => {
@@ -279,20 +279,29 @@ function App() {
               <video
                 src={lightboxMedia.src}
                 className="block max-h-[82vh] w-full bg-black object-contain"
-                controls
+                
                 autoPlay
                 muted
                 playsInline
               />
             ) : (
               <div className="aspect-video w-full">
-                <iframe
-                  title={lightboxMedia.title}
-                  src={lightboxMedia.src}
-                  loading="lazy"
-                  allow="fullscreen"
-                  className="h-full w-full"
-                />
+                {(() => {
+                  const isCanvaEmbed =
+                    lightboxMedia && typeof lightboxMedia.src === 'string' &&
+                    lightboxMedia.src.includes('canva.com')
+
+                  return (
+                    <iframe
+                      title={lightboxMedia.title}
+                      src={lightboxMedia.src}
+                      loading="lazy"
+                      allow="fullscreen; autoplay; encrypted-media; clipboard-write"
+                      allowFullScreen={isCanvaEmbed}
+                      className={isCanvaEmbed ? 'h-full w-full' : 'h-full w-full pointer-events-none'}
+                    />
+                  )
+                })()}
               </div>
             )}
           </div>
@@ -322,7 +331,7 @@ function App() {
       <div className="grid w-full items-center gap-6 sm:gap-8 md:gap-10 md:grid-cols-[1.05fr_0.95fr]">
         <div className="space-y-6">
           <p className="inline-flex rounded-full border border-emerald-500/40 bg-emerald-500/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-200">
-            Client-facing marketing strategy that's stress-free
+            Client-facing marketing strategy with less stress
           </p>
           <h1
             className="headline-reveal font-heading text-3xl leading-tight text-stone-100 xs:text-4xl sm:text-5xl lg:text-6xl"
@@ -335,7 +344,7 @@ function App() {
             />
           </h1>
           <p className="max-w-xl text-sm text-stone-300 sm:text-base lg:text-lg">
-            With a broad spectrum of experience across agency execution, consumer insights, student engagement, and event leadership, I bring a versatile skill set to marketing challenges. I'm passionate about applying data-driven insights and creative problem-solving to help organizations connect with their audiences effectively while simulataneously keeping sales pipelines cohesive and intuitive.
+            With a broad spectrum of experience across agency execution, consumer insights, student engagement, and event leadership, I bring a versatile skill set to marketing challenges. I'm passionate about applying data-driven insights and creative problem-solving to help organizations connect with their audiences effectively while also keeping sales pipelines cohesive and intuitive.
           </p>
           <div className="action-stack">
             <div className="swipe-btn swipe-btn--primary resume-split" role="group" aria-label="Resume actions">
@@ -343,7 +352,7 @@ function App() {
               <a
                 href={resumeViewPath}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="resume-split__link"
               >
                 View
@@ -365,6 +374,8 @@ function App() {
             <div className="h-[85%] overflow-hidden">
               <img
                 src={headshotImage}
+                srcSet={`${headshotImage} 900w`}
+                sizes="(max-width: 640px) 100vw, 50vw"
                 alt="Headshot of Hayden Cornett"
                 loading="lazy"
                 decoding="async"
@@ -410,21 +421,21 @@ function App() {
   )
 
   const renderEducationPage = () => (
-    <section className="pb-14 pt-10">
+    <section className="mx-auto flex min-h-[calc(100vh-11rem)] w-full max-w-4xl flex-col items-center justify-center py-10">
       <h2
-        className="headline-reveal font-heading text-2xl text-stone-100 sm:text-3xl md:text-4xl"
+        className="headline-reveal font-heading text-center text-2xl text-stone-100 sm:text-3xl md:text-4xl"
         style={{ animationDelay: '120ms' }}
       >
         Education Details
       </h2>
-      <div className="sleek-surface mt-6 rounded-3xl p-6 sm:p-8">
-        <p className="text-xs uppercase tracking-[0.16em] text-stone-400">
+      <div className="sleek-surface mt-6 w-full rounded-3xl p-6 sm:p-8">
+        <p className="text-center text-xs uppercase tracking-[0.16em] text-stone-400">
           The University of Tennessee, Knoxville - Haslam College of Business
         </p>
-        <h3 className="mt-2 font-heading text-2xl text-stone-100">
+        <h3 className="mt-2 text-center font-heading text-2xl text-stone-100">
           Bachelor of Science in Business Administration
         </h3>
-        <p className="mt-1 text-sm text-stone-300">Graduation: May 2028</p>
+        <p className="mt-1 text-center text-sm text-stone-300">Graduation: May 2028</p>
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           <p className="rounded-xl border border-emerald-500/30 bg-emerald-500/15 px-4 py-3 text-sm text-stone-200">
             Major: Marketing
@@ -450,15 +461,15 @@ function App() {
   )
 
   const renderExperiencePage = () => (
-    <section className="pb-14 pt-10">
+    <section className="mx-auto flex min-h-[calc(100vh-11rem)] w-full max-w-5xl flex-col items-center justify-center py-10">
       <h2
-        className="headline-reveal font-heading text-2xl text-stone-100 sm:text-3xl md:text-4xl"
+        className="headline-reveal font-heading text-center text-2xl text-stone-100 sm:text-3xl md:text-4xl"
         style={{ animationDelay: '120ms' }}
       >
         Experience Details
       </h2>
-      <div className="sleek-surface mt-6 rounded-3xl p-6 sm:p-8">
-        <p className="text-xs uppercase tracking-[0.16em] text-stone-400">
+      <div className="sleek-surface mt-6 w-full rounded-3xl p-6 sm:p-8">
+        <p className="text-center text-xs uppercase tracking-[0.16em] text-stone-400">
           Professional Experience
         </p>
         <div className="mt-5 grid gap-4 sm:gap-5 md:grid-cols-[240px_1fr]">
@@ -502,23 +513,23 @@ function App() {
   )
 
   const renderLeadershipPage = () => (
-    <section className="pb-14 pt-10">
+    <section className="mx-auto flex min-h-[calc(100vh-11rem)] w-full max-w-5xl flex-col items-center justify-center py-10">
       <h2
-        className="headline-reveal font-heading text-2xl text-stone-100 sm:text-3xl md:text-4xl"
+        className="headline-reveal font-heading text-center text-2xl text-stone-100 sm:text-3xl md:text-4xl"
         style={{ animationDelay: '120ms' }}
       >
         Leadership Details
       </h2>
-      <div className="sleek-surface mt-6 overflow-hidden rounded-3xl border border-emerald-500/20 p-4 sm:p-5 md:p-6">
+      <div className="sleek-surface mt-6 w-full overflow-hidden rounded-3xl border border-emerald-500/20 p-4 sm:p-5 md:p-6">
         <div className="grid gap-4 sm:gap-5 lg:gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div>
-            <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">
+            <p className="text-center text-xs uppercase tracking-[0.16em] text-emerald-300 lg:text-left">
               {emergingLeadersFeature.subtitle}
             </p>
-            <h3 className="mt-2 font-heading text-xl text-stone-100 sm:text-2xl md:text-3xl">
+            <h3 className="mt-2 text-center font-heading text-xl text-stone-100 sm:text-2xl md:text-3xl lg:text-left">
               {emergingLeadersFeature.title}
             </h3>
-            <p className="mt-3 text-sm text-stone-300 sm:text-base">
+            <p className="mt-3 text-center text-sm text-stone-300 sm:text-base lg:text-left">
               {emergingLeadersFeature.body}
             </p>
             <div className="mt-4 space-y-3">
@@ -531,7 +542,7 @@ function App() {
                 </p>
               ))}
             </div>
-            <p className="mt-4 text-sm font-semibold text-emerald-300">
+            <p className="mt-4 text-center text-sm font-semibold text-emerald-300 lg:text-left">
               {emergingLeadersFeature.result}
             </p>
           </div>
@@ -592,29 +603,29 @@ function App() {
   )
 
   const renderPortfolioPage = () => (
-    <section className="pb-14 pt-8 sm:pt-10">
+    <section className="mx-auto flex w-full max-w-5xl flex-col items-center pb-14 pt-8 sm:pt-10">
       <h2
-        className="headline-reveal font-heading text-2xl text-stone-100 sm:text-3xl md:text-4xl"
+        className="headline-reveal font-heading text-center text-2xl text-stone-100 sm:text-3xl md:text-4xl"
         style={{ animationDelay: '120ms' }}
       >
         Portfolio
       </h2>
-      <p className="mt-3 max-w-3xl text-xs text-stone-300 sm:text-sm md:text-base">
-        A compact collection of client and tournament work. Open each section to view the supporting details and media.
+      <p className="mt-3 max-w-3xl text-center text-xs text-stone-300 sm:text-sm md:text-base">
+        A compact collection of client and tournament work. Open each section to view supporting details and media.
       </p>
-      <p className="mt-3 text-xs text-stone-400/90">
-        *All featured materials have been approved for public use and have been modified for ease of access.
+      <p className="mt-3 text-center text-xs text-stone-400/90">
+        *All featured materials have been approved for public use and adapted for easier viewing.
       </p>
 
-      <div className="mt-6 space-y-4">
+      <div className="mt-6 w-full space-y-4">
         <details className="sleek-surface overflow-hidden rounded-3xl border border-emerald-500/20">
           <summary className="cursor-pointer list-none px-4 py-4 outline-none focus:outline-none focus-visible:outline-none sm:px-6">
-            <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center justify-center gap-3 text-center lg:justify-between lg:text-left">
               <div>
                 <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">Product Strategy</p>
                 <h3 className="mt-2 font-heading text-lg sm:text-xl md:text-2xl text-stone-100">Ascendco</h3>
                 <p className="mt-2 max-w-3xl text-sm text-stone-300">
-                  Naming strategy and launch campaign for a sterile hardware processing software with embedded artificial intelligence capabilities.
+                  Naming strategy and launch campaign for sterile hardware-processing software with embedded AI capabilities.
                 </p>
               </div>
               <span className="rounded-full border border-emerald-500/30 px-4 py-1 text-2xl leading-none text-emerald-200" aria-hidden="true">
@@ -687,7 +698,7 @@ function App() {
 
         <details className="sleek-surface overflow-hidden rounded-3xl border border-emerald-500/20">
           <summary className="cursor-pointer list-none px-4 py-4 outline-none focus:outline-none focus-visible:outline-none sm:px-6">
-            <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center justify-center gap-3 text-center lg:justify-between lg:text-left">
               <div>
                 <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">Client Advising</p>
                 <h3 className="mt-2 font-heading text-2xl text-stone-100">The Mountain Mile</h3>
@@ -704,25 +715,15 @@ function App() {
           <div className="px-4 pb-4 sm:px-6 sm:pb-6">
             <div className="grid gap-3 sm:gap-4 lg:grid-cols-2">
               {portfolioDecks.map((deck) => (
-                <div key={deck.embedSrc} className="rounded-2xl border border-emerald-500/30 bg-stone-950/40 p-2 sm:p-3 md:p-4">
-                  <div className="mb-2 sm:mb-3 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-3">
-                    <div>
-                      <p className="font-heading text-base sm:text-lg md:text-xl text-stone-100">{deck.title}</p>
-                      <p className="mt-1 text-xs sm:text-sm text-stone-300">{deck.summary}</p>
-                    </div>
-                    <a
-                      href={deck.viewHref}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="swipe-btn swipe-btn--secondary"
-                    >
-                      <span className="swipe-btn__label">Open</span>
-                    </a>
+                <div key={deck.embedSrc} className="rounded-2xl border border-emerald-500/30 bg-stone-950/40 p-2 sm:p-3 md:p-4 flex flex-col">
+                  <div className="mb-2 sm:mb-3">
+                    <p className="font-heading text-base sm:text-lg md:text-xl text-stone-100">{deck.title}</p>
+                    <p className="mt-1 text-xs sm:text-sm text-stone-300">{deck.summary}</p>
                   </div>
 
                   <button
                     type="button"
-                    className="group relative aspect-video overflow-hidden rounded-xl border border-emerald-500/30 bg-stone-900/40 text-left transition hover:border-emerald-300"
+                    className="group relative h-48 w-full overflow-hidden rounded-xl border border-emerald-500/30 bg-stone-900/40 text-left transition hover:border-emerald-300"
                     aria-label={`View ${deck.title} larger`}
                     onClick={() =>
                       openLightbox({
@@ -751,12 +752,12 @@ function App() {
 
         <details className="sleek-surface overflow-hidden rounded-3xl border border-emerald-500/20">
           <summary className="cursor-pointer list-none px-4 py-4 outline-none focus:outline-none focus-visible:outline-none sm:px-6">
-            <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center justify-center gap-3 text-center lg:justify-between lg:text-left">
               <div>
                 <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">Nonprofit Strategy</p>
                 <h3 className="mt-2 font-heading text-2xl text-stone-100">Homes of Love</h3>
                 <p className="mt-2 max-w-3xl text-sm text-stone-300">
-                  A release strategy for a new support box designed to help children abroad in Vietnam.
+                  A release strategy for a new support box designed to support children in Vietnam.
                 </p>
               </div>
               <span className="rounded-full border border-emerald-500/30 px-4 py-1 text-2xl leading-none text-emerald-200" aria-hidden="true">
@@ -796,7 +797,7 @@ function App() {
 
         <details className="sleek-surface overflow-hidden rounded-3xl border border-emerald-500/20">
           <summary className="cursor-pointer list-none px-4 py-4 outline-none focus:outline-none focus-visible:outline-none sm:px-6">
-            <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center justify-center gap-3 text-center lg:justify-between lg:text-left">
               <div>
                 <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">Tournament Platform</p>
                 <h3 className="mt-2 font-heading text-2xl text-stone-100">Livestream Content Development (SUPA Tournaments)</h3>
@@ -814,7 +815,7 @@ function App() {
             <div className="rounded-2xl border border-emerald-500/30 bg-stone-950/30 px-4 py-3 text-sm text-stone-300">
               <p className="font-semibold text-stone-100">Project context</p>
               <p className="mt-2">
-                SUPA Tournaments was founded by an international-wide team to experiment with the tournament scene of the highest-rated Virtual Reality game in the world: Beat Saber. In my role, I was responsible for working front-end live development, live organization, as well as creative mockups. Below are all projects we worked on as a team with asset visuals. Additional visuals and overlays can be given upon request.
+                SUPA Tournaments was founded by an international team to experiment with the tournament scene of the world's highest-rated virtual reality game, Beat Saber. In my role, I was responsible for front-end live development, live organization, and creative mockups. Below are the projects we worked on as a team, with supporting visuals. Additional visuals and overlays are available upon request.
               </p>
             </div>
 
@@ -871,36 +872,122 @@ function App() {
   const renderContactPage = () => (
     <section
       id="contact"
-      className="mt-8 sm:mt-10 rounded-3xl border border-stone-800 bg-stone-900/95 px-4 py-8 sm:px-6 sm:py-10 md:px-8 text-white shadow-xl shadow-stone-900/30"
+      className="mx-auto flex min-h-[calc(100vh-11rem)] w-full max-w-6xl items-center py-10"
     >
-      <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">
-        How can I help your business?
-      </p>
-      <h2
-        className="headline-reveal mt-3 font-heading text-2xl sm:text-3xl md:text-4xl"
-        style={{ animationDelay: '100ms' }}
-      >
-        Open to internships, mentorship, and marketing opportunities.
-      </h2>
-      <p className="mt-3 max-w-2xl text-sm sm:text-base text-stone-300">
-        Reach out by email or LinkedIn to discuss internships, team projects,
-        speaking opportunities, or career pathways in marketing and business.
-      </p>
-      <div className="mt-6 grid max-w-xl gap-3 grid-cols-1 xs:grid-cols-2">
-        <a
-          href="mailto:hayden.cornett06@gmail.com"
-          className="swipe-btn swipe-btn--primary"
-        >
-          <span className="swipe-btn__label">Email Hayden</span>
-        </a>
-        <a
-          href="https://www.linkedin.com/in/hayden-cornett/"
-          target="_blank"
-          rel="noreferrer"
-          className="swipe-btn swipe-btn--secondary"
-        >
-          <span className="swipe-btn__label">Connect on LinkedIn</span>
-        </a>
+      <div className="grid w-full gap-5 lg:grid-cols-[1.1fr_0.9fr] lg:gap-6">
+        <div className="sleek-surface overflow-hidden rounded-3xl border border-emerald-500/20 p-6 sm:p-8 md:p-10">
+          <p className="text-xs uppercase tracking-[0.2em] text-emerald-300">
+            Contact
+          </p>
+          <h2
+            className="headline-reveal mt-3 max-w-2xl font-heading text-3xl leading-tight text-stone-100 sm:text-4xl md:text-5xl"
+            style={{ animationDelay: '100ms' }}
+          >
+            Let&apos;s build something useful, clear, and memorable.
+          </h2>
+          <p className="mt-4 max-w-2xl text-sm text-stone-300 sm:text-base md:text-lg">
+            Reach out if you&apos;re looking for a marketing student who can think
+            strategically, communicate cleanly, and contribute across brand,
+            research, events, or client work.
+          </p>
+
+          <div className="mt-6 flex flex-wrap gap-3 text-xs uppercase tracking-[0.14em] text-stone-200">
+            <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5">
+              Internship ready
+            </span>
+            <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5">
+              Open to mentorship
+            </span>
+            <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5">
+              Project collaborations
+            </span>
+          </div>
+
+          <div className="mt-8 grid gap-3 sm:grid-cols-3">
+            <div className="rounded-2xl border border-emerald-500/20 bg-stone-950/40 p-4">
+              <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">
+                Best for
+              </p>
+              <p className="mt-2 text-sm text-stone-200">
+                Internships, brand support, and portfolio-related conversations.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-emerald-500/20 bg-stone-950/40 p-4">
+              <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">
+                Fastest route
+              </p>
+              <p className="mt-2 text-sm text-stone-200">
+                Best for direct conversations and project details.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-emerald-500/20 bg-stone-950/40 p-4">
+              <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">
+                Network
+              </p>
+              <p className="mt-2 text-sm text-stone-200">
+                LinkedIn for introductions and professional updates.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="sleek-surface flex flex-col justify-between rounded-3xl border border-emerald-500/20 p-6 sm:p-8">
+          <div>
+            <p className="text-xs uppercase tracking-[0.2em] text-stone-400">
+              Direct contact
+            </p>
+            <h3 className="mt-3 font-heading text-2xl text-stone-100 sm:text-3xl">
+              Reach out here.
+            </h3>
+            <p className="mt-3 max-w-md text-sm text-stone-300 sm:text-base">
+              Choose the channel that fits best. One option is best for formal
+              opportunities, and the other is better for staying connected.
+            </p>
+          </div>
+
+          <div className="mt-6 space-y-3">
+            <a
+              href="mailto:hayden.cornett06@gmail.com"
+              className="group flex items-center justify-between rounded-2xl border border-emerald-500/30 bg-stone-950/50 px-4 py-4 text-left transition hover:-translate-y-0.5 hover:border-emerald-300"
+            >
+              <span>
+                <span className="block text-xs uppercase tracking-[0.16em] text-emerald-300">
+                  Email
+                </span>
+                <span className="mt-1 block text-lg font-semibold text-stone-100">
+                  hayden.cornett06@gmail.com
+                </span>
+              </span>
+              <span className="text-sm font-semibold text-emerald-200 transition group-hover:translate-x-1">
+                Open
+              </span>
+            </a>
+
+            <a
+              href="https://www.linkedin.com/in/hayden-cornett/"
+              target="_blank"
+              rel="noreferrer"
+              className="group flex items-center justify-between rounded-2xl border border-emerald-500/30 bg-stone-950/50 px-4 py-4 text-left transition hover:-translate-y-0.5 hover:border-emerald-300"
+            >
+              <span>
+                <span className="block text-xs uppercase tracking-[0.16em] text-emerald-300">
+                  LinkedIn
+                </span>
+                <span className="mt-1 block text-lg font-semibold text-stone-100">
+                  Connect with Hayden
+                </span>
+              </span>
+              <span className="text-sm font-semibold text-emerald-200 transition group-hover:translate-x-1">
+                Visit
+              </span>
+            </a>
+          </div>
+
+          <p className="mt-6 text-sm text-stone-400">
+            If you&apos;re unsure which option to use, start with the message button
+            above.
+          </p>
+        </div>
       </div>
     </section>
   )
