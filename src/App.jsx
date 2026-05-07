@@ -622,6 +622,51 @@ function App() {
           <summary className="cursor-pointer list-none px-4 py-4 outline-none focus:outline-none focus-visible:outline-none sm:px-6">
             <div className="flex flex-wrap items-center justify-center gap-3 text-center lg:justify-between lg:text-left">
               <div>
+                <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">Conference Presentation</p>
+                <h3 className="mt-2 font-heading text-2xl text-stone-100">UT Marketing Sales Conference</h3>
+                <p className="mt-2 max-w-3xl text-sm text-stone-300">
+                  Strategic marketing presentation developed for the University of Tennessee marketing sales conference.
+                </p>
+              </div>
+              <span className="rounded-full border border-emerald-500/30 px-4 py-1 text-2xl leading-none text-emerald-200" aria-hidden="true">
+                ↓
+              </span>
+            </div>
+          </summary>
+
+          <div className="px-4 pb-4 sm:px-6 sm:pb-6">
+            <div className="rounded-2xl border border-emerald-500/30 bg-stone-950/40 p-2 sm:p-3 md:p-4">
+              <button
+                type="button"
+                className="group relative w-full aspect-video overflow-hidden rounded-xl border border-emerald-500/30 bg-stone-900/40 text-left transition hover:border-emerald-300"
+                aria-label="View UT Marketing Sales Conference presentation larger"
+                onClick={() =>
+                  openLightbox({
+                    type: 'embed',
+                    src: 'https://www.canva.com/design/DAHJAVzKGOs/sg7ZqcT51sd7wBeCHn4pSA/view?embed',
+                    title: 'UT Marketing Sales Conference',
+                    kicker: 'Portfolio deck',
+                    caption: 'Strategic marketing presentation for the University of Tennessee marketing sales conference.',
+                  })
+                }
+              >
+                <iframe
+                  title="UT Marketing Sales Conference embed"
+                  src="https://www.canva.com/design/DAHJAVzKGOs/sg7ZqcT51sd7wBeCHn4pSA/view?embed"
+                  loading="lazy"
+                  allow="fullscreen"
+                  className="pointer-events-none h-full w-full"
+                />
+                <span className="absolute inset-0 bg-gradient-to-t from-black/28 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
+              </button>
+            </div>
+          </div>
+        </details>
+
+        <details className="sleek-surface overflow-hidden rounded-3xl border border-emerald-500/20">
+          <summary className="cursor-pointer list-none px-4 py-4 outline-none focus:outline-none focus-visible:outline-none sm:px-6">
+            <div className="flex flex-wrap items-center justify-center gap-3 text-center lg:justify-between lg:text-left">
+              <div>
                 <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">Product Strategy</p>
                 <h3 className="mt-2 font-heading text-lg sm:text-xl md:text-2xl text-stone-100">Ascendco</h3>
                 <p className="mt-2 max-w-3xl text-sm text-stone-300">
