@@ -108,6 +108,23 @@ body {
   color: #a7f3d0;
 }
 
+.portfolio-panel {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transform: translateX(-14px);
+  transition:
+    max-height 420ms ease,
+    opacity 260ms ease,
+    transform 420ms ease;
+}
+
+details[open] > .portfolio-panel {
+  max-height: 1800px;
+  opacity: 1;
+  transform: translateX(0);
+}
+
 .action-stack {
   display: flex;
   flex-direction: column;

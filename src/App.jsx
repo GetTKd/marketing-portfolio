@@ -26,6 +26,22 @@ function App() {
   const heroHeading = "Hey! I'm Hayden."
   const resumeViewPath = '/resume.pdf'
   const resumeDownloadPath = '/resume.pdf'
+  const profileHighlights = [
+    { label: 'Location', value: 'Knoxville, TN' },
+    { label: 'Focus', value: 'Brand strategy + consumer insights' },
+    { label: 'Tools', value: 'Excel, Notion, SQL' },
+  ]
+  const topSkills = ['Microsoft Excel', 'Notion', 'Stakeholder Relations']
+  const certifications = [
+    'Communicating with Confidence',
+    'Sales Enablement',
+    'Critical Thinking with Excel',
+    'SQL Essential Training',
+  ]
+  const honors = [
+    'UT Volunteer Scholarship',
+    'McClung Public Speaking Competition - 2nd Place',
+  ]
   const companyLogos = [
     { name: 'Boldsquare', src: '/Boldsquare.png' },
     { name: 'GE Appliances', src: '/GE.png' },
@@ -73,21 +89,23 @@ function App() {
 
   const roles = {
     Boldsquare: {
-      title: 'Marketing Resident',
+      title: 'Marketing and Communications Intern',
       location: 'Knoxville, TN',
-      timeline: 'Jan 2026 - Present',
+      timeline: 'Jan 2026 - May 2026',
       bullets: [
-        'Apply theoretical marketing knowledge across project management, business development, and social media strategy at an Inc. 500 communications firm.',
-        'Manage full-cycle projects for nonprofit and for-profit clients, including budget management, creative execution, and final business pitches.',
+        'Selected for an intensive semester-long experience at Boldsquare, an Inc. 5000 strategic communications firm, through the Haslam College of Business.',
+        'Managed full-cycle projects for multiple nonprofit and for-profit clients, contributing to budget management, creative execution, and final business pitches.',
         'Completed a specialized MarTech certification to validate technical proficiency.',
       ],
     },
     'GE Appliances': {
-      title: 'Incoming Commercial Development Intern',
+      title: 'Incoming Bodewell Division Marketing Intern',
       location: 'Louisville, KY',
-      timeline: 'May 2026 - Aug 2026',
+      timeline: 'Summer 2026',
       bullets: [
-        'Contribute to the national sales funnel of a $3B home appliance company, helping shape brand differentiation.',
+        'Joining a team responsible for bringing the Bodewell brand to life across commercial-facing channels and go-to-market execution.',
+        'Improving affiliate and partnership reporting to drive more efficient analytics and optimize customer acquisition.',
+        'Leveraging user-generated content and consumer reviews to strengthen brand trust and increase conversion across digital channels.',
       ],
     },
     'UT Ambassador': {
@@ -95,18 +113,19 @@ function App() {
       location: 'Knoxville, TN',
       timeline: 'Feb 2025 - Present',
       bullets: [
-        'Selected from 634 applicants (6% acceptance rate) to lead campus tours for 15-35 prospective students and families.',
-        'Tailor messaging to audience needs to strengthen engagement during recruitment events.',
-        'Host 2+ events, including Big Orange Preview and Rocky Top Tailgate, to create hands-on campus experiences.',
+        'Selected as 1 of 634 applicants to lead campus tours for 15-35 prospective students, families, and VIPs.',
+        'Adapting messaging to audience needs and contributing to higher engagement during recruitment events.',
+        'Hosting 2+ events, including Big Orange Preview and Rocky Top Tailgate, to give visitors a hands-on college sneak peek.',
       ],
     },
     'Beats by Dre': {
       title: 'Consumer Insights & Market Research Analyst Extern',
-      location: 'New York, NY (Remote)',
-      timeline: 'Apr 2025 - May 2025',
+      location: 'Remote',
+      timeline: 'Apr 2025 - Jun 2025',
       bullets: [
-        'Delivered strategic recommendations on Gen Z audio preferences to Beats Consumer Insights using rigorous data analysis and trend research.',
+        'Delivered strategic recommendations on Gen Z audio preferences to Beats leadership using rigorous data analysis and trend research.',
         'Combined AI-powered systems, surveys, and statistical modeling to pitch product and marketing decisions for a global brand.',
+        'Presented the final deck to Beats\' Head of Consumer Insights.',
       ],
     },
   }
@@ -124,6 +143,19 @@ function App() {
     imageAlt: 'Emerging Leaders project poster about student technology advocacy',
     result: 'Portfolio showcase: Revisiting student technology advocacy',
   }
+
+  const leadershipCards = [
+    {
+      title: 'UTK Business Honors Council - Vice President of Professional Development',
+      body: 'Serving on the executive board and leading professional development programming that connects honors business students with recruiters, industry professionals, and career resources.',
+      result: 'Focused on building access to high-value networking and career readiness opportunities.',
+    },
+    {
+      title: 'Delta Sigma Pi - Senior Vice President',
+      body: 'Orchestrating recruitment rounds with 200+ interested students and serving as a primary point of contact from initial engagement through onboarding.',
+      result: 'Helped refresh dated systems, optimize brotherhood expenses by over 40%, and improve the member experience.',
+    },
+  ]
 
   const openLightbox = (media) => {
     setLightboxMedia(media)
@@ -331,7 +363,7 @@ function App() {
       <div className="grid w-full items-center gap-6 sm:gap-8 md:gap-10 md:grid-cols-[1.05fr_0.95fr]">
         <div className="space-y-6">
           <p className="inline-flex rounded-full border border-emerald-500/40 bg-emerald-500/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-emerald-200">
-            Client-facing marketing strategy with less stress
+            Honors marketing and data science student
           </p>
           <h1
             className="headline-reveal font-heading text-3xl leading-tight text-stone-100 xs:text-4xl sm:text-5xl lg:text-6xl"
@@ -344,8 +376,23 @@ function App() {
             />
           </h1>
           <p className="max-w-xl text-sm text-stone-300 sm:text-base lg:text-lg">
-            With a broad spectrum of experience across agency execution, consumer insights, student engagement, and event leadership, I bring a versatile skill set to marketing challenges. I'm passionate about applying data-driven insights and creative problem-solving to help organizations connect with their audiences effectively while also keeping sales pipelines cohesive and intuitive.
+            I&apos;m a second-year honors marketing and data science student at the University of Tennessee in Knoxville, focused on turning data into direction through brand strategy, consumer insights, and stakeholder relationships.
           </p>
+          <div className="grid gap-3 sm:grid-cols-3">
+            {profileHighlights.map((item) => (
+              <div
+                key={item.label}
+                className="rounded-2xl border border-emerald-500/20 bg-stone-950/35 px-4 py-3"
+              >
+                <p className="text-[0.65rem] uppercase tracking-[0.18em] text-emerald-300">
+                  {item.label}
+                </p>
+                <p className="mt-2 text-sm font-semibold text-stone-100">
+                  {item.value}
+                </p>
+              </div>
+            ))}
+          </div>
           <div className="action-stack">
             <div className="swipe-btn swipe-btn--primary resume-split" role="group" aria-label="Resume actions">
               <span className="resume-split__label">Resume:</span>
@@ -426,35 +473,32 @@ function App() {
         className="headline-reveal font-heading text-center text-2xl text-stone-100 sm:text-3xl md:text-4xl"
         style={{ animationDelay: '120ms' }}
       >
-        Education Details
+        Education
       </h2>
       <div className="sleek-surface mt-6 w-full rounded-3xl p-6 sm:p-8">
         <p className="text-center text-xs uppercase tracking-[0.16em] text-stone-400">
           The University of Tennessee, Knoxville - Haslam College of Business
         </p>
         <h3 className="mt-2 text-center font-heading text-2xl text-stone-100">
-          Bachelor of Science in Business Administration
+          Bachelor of Science in Business Administration, Marketing
         </h3>
-        <p className="mt-1 text-center text-sm text-stone-300">Graduation: May 2028</p>
+        <p className="mt-1 text-center text-sm text-stone-300">
+          June 2024 - May 2028 | Honors student with a growing data science focus
+        </p>
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
-          <p className="rounded-xl border border-emerald-500/30 bg-emerald-500/15 px-4 py-3 text-sm text-stone-200">
-            Major: Marketing
-          </p>
-          <p className="rounded-xl border border-emerald-500/30 bg-emerald-500/15 px-4 py-3 text-sm text-stone-200">
-            Collateral: Supply Chain Management
-          </p>
-          <p className="rounded-xl border border-emerald-500/30 bg-emerald-500/15 px-4 py-3 text-sm text-stone-200">
-            Business Fellows Honors Program
-          </p>
-          <p className="rounded-xl border border-emerald-500/30 bg-emerald-500/15 px-4 py-3 text-sm text-stone-200">
-            UT Volunteer Scholarship
-          </p>
-          <p className="rounded-xl border border-emerald-500/30 bg-emerald-500/15 px-4 py-3 text-sm text-stone-200">
-            Cumulative GPA: 4.00/4.00
-          </p>
-          <p className="rounded-xl border border-emerald-500/30 bg-emerald-500/15 px-4 py-3 text-sm text-stone-200">
-            Dean's List: 2x Summa Cum Laude
-          </p>
+          {[
+            'Marketing major with data-driven decision-making interests',
+            'UT Volunteer Scholarship',
+            'McClung Public Speaking Competition - 2nd Place',
+            'Knoxville, TN',
+          ].map((item) => (
+            <p
+              key={item}
+              className="rounded-xl border border-emerald-500/30 bg-emerald-500/15 px-4 py-3 text-sm text-stone-200"
+            >
+              {item}
+            </p>
+          ))}
         </div>
       </div>
     </section>
@@ -573,20 +617,7 @@ function App() {
         </div>
       </div>
       <div className="mt-6 grid gap-3 sm:gap-4 md:grid-cols-2">
-        {[
-          {
-            title: 'Business Honors Council - Advisory Council Member',
-            body: 'Crafting engagement events for around 1,000 honors business students and improving access to faculty, administration, and recruiting organizations.',
-            result:
-              'Focused on bridging top student talent with strategic college stakeholders.',
-          },
-          {
-            title: 'Delta Sigma Pi - Faculty Relations and VP Roles',
-            body: 'Directed faculty-student networking operations, scholarship incentives, and pledge education systems for a large member base.',
-            result:
-              'Improved mentorship participation by 25% and supported retention and engagement for 115+ students.',
-          },
-        ].map((item) => (
+        {leadershipCards.map((item) => (
           <article
             key={item.title}
             className="sleek-surface rounded-2xl p-5"
@@ -625,7 +656,7 @@ function App() {
                 <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">Conference Presentation</p>
                 <h3 className="mt-2 font-heading text-2xl text-stone-100">UT Marketing Sales Conference</h3>
                 <p className="mt-2 max-w-3xl text-sm text-stone-300">
-                  Strategic marketing presentation developed for the University of Tennessee marketing sales conference.
+                  Strategic marketing presentation developed for the University of Tennessee marketing sales conference. New name and graphics blacked out for confidentiality.
                 </p>
               </div>
               <span className="rounded-full border border-emerald-500/30 px-4 py-1 text-2xl leading-none text-emerald-200" aria-hidden="true">
@@ -634,7 +665,7 @@ function App() {
             </div>
           </summary>
 
-          <div className="px-4 pb-4 sm:px-6 sm:pb-6">
+          <div className="portfolio-panel px-4 pb-4 sm:px-6 sm:pb-6">
             <div className="rounded-2xl border border-emerald-500/30 bg-stone-950/40 p-2 sm:p-3 md:p-4">
               <button
                 type="button"
@@ -646,7 +677,7 @@ function App() {
                     src: 'https://www.canva.com/design/DAHJAVzKGOs/sg7ZqcT51sd7wBeCHn4pSA/view?embed',
                     title: 'UT Marketing Sales Conference',
                     kicker: 'Portfolio deck',
-                    caption: 'Strategic marketing presentation for the University of Tennessee marketing sales conference.',
+                    caption: 'Strategic marketing presentation developed for the University of Tennessee marketing sales conference. New name and graphics blacked out for confidentiality.',
                   })
                 }
               >
@@ -679,7 +710,7 @@ function App() {
             </div>
           </summary>
 
-          <div className="px-4 pb-4 sm:px-6 sm:pb-6">
+          <div className="portfolio-panel px-4 pb-4 sm:px-6 sm:pb-6">
             <div className="grid gap-3 sm:gap-4 lg:grid-cols-[1fr_3fr]">
               <div className="rounded-2xl border border-emerald-500/30 bg-stone-950/40 p-2 sm:p-3 md:p-4 flex flex-col">
                 <p className="font-heading text-base sm:text-lg text-stone-100 mb-2 sm:mb-3">Sizzle Post Mockup</p>
@@ -757,7 +788,7 @@ function App() {
             </div>
           </summary>
 
-          <div className="px-4 pb-4 sm:px-6 sm:pb-6">
+          <div className="portfolio-panel px-4 pb-4 sm:px-6 sm:pb-6">
             <div className="grid gap-3 sm:gap-4 lg:grid-cols-2">
               {portfolioDecks.map((deck) => (
                 <div key={deck.embedSrc} className="rounded-2xl border border-emerald-500/30 bg-stone-950/40 p-2 sm:p-3 md:p-4 flex flex-col">
@@ -811,7 +842,7 @@ function App() {
             </div>
           </summary>
 
-          <div className="px-4 pb-4 sm:px-6 sm:pb-6">
+          <div className="portfolio-panel px-4 pb-4 sm:px-6 sm:pb-6">
             <div className="rounded-2xl border border-emerald-500/30 bg-stone-950/40 p-2 sm:p-3 md:p-4">
               <button
                 type="button"
@@ -856,7 +887,7 @@ function App() {
             </div>
           </summary>
 
-          <div className="px-4 pb-4 sm:px-6 sm:pb-6">
+          <div className="portfolio-panel px-4 pb-4 sm:px-6 sm:pb-6">
             <div className="rounded-2xl border border-emerald-500/30 bg-stone-950/30 px-4 py-3 text-sm text-stone-300">
               <p className="font-semibold text-stone-100">Project context</p>
               <p className="mt-2">
@@ -928,50 +959,81 @@ function App() {
             className="headline-reveal mt-3 max-w-2xl font-heading text-3xl leading-tight text-stone-100 sm:text-4xl md:text-5xl"
             style={{ animationDelay: '100ms' }}
           >
-            Let&apos;s build something useful, clear, and memorable.
+            Let&apos;s turn strong data into sharper marketing decisions.
           </h2>
           <p className="mt-4 max-w-2xl text-sm text-stone-300 sm:text-base md:text-lg">
-            Reach out if you&apos;re looking for a marketing student who can think
-            strategically, communicate cleanly, and contribute across brand,
-            research, events, or client work.
+            Reach out if you&apos;re looking for a marketing student who can pair
+            Excel, stakeholder relations, and consumer insight with clean
+            communication and collaborative execution.
           </p>
 
           <div className="mt-6 flex flex-wrap gap-3 text-xs uppercase tracking-[0.14em] text-stone-200">
             <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5">
-              Internship ready
+              Brand strategy
             </span>
             <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5">
-              Open to mentorship
+              Consumer insights
             </span>
             <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5">
-              Project collaborations
+              Stakeholder relations
             </span>
           </div>
 
-          <div className="mt-8 grid gap-3 sm:grid-cols-3">
+          <div className="mt-8 grid gap-3 sm:grid-cols-2">
             <div className="rounded-2xl border border-emerald-500/20 bg-stone-950/40 p-4">
               <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">
-                Best for
+                Top skills
               </p>
-              <p className="mt-2 text-sm text-stone-200">
-                Internships, brand support, and portfolio-related conversations.
-              </p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {topSkills.map((item) => (
+                  <span
+                    key={item}
+                    className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs text-stone-200"
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
             </div>
             <div className="rounded-2xl border border-emerald-500/20 bg-stone-950/40 p-4">
               <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">
-                Fastest route
+                Certifications
               </p>
-              <p className="mt-2 text-sm text-stone-200">
-                Best for direct conversations and project details.
-              </p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {certifications.map((item) => (
+                  <span
+                    key={item}
+                    className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs text-stone-200"
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
             </div>
             <div className="rounded-2xl border border-emerald-500/20 bg-stone-950/40 p-4">
               <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">
-                Network
+                Languages
               </p>
-              <p className="mt-2 text-sm text-stone-200">
-                LinkedIn for introductions and professional updates.
+              <div className="mt-3 flex flex-wrap gap-2">
+                <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs text-stone-200">
+                  Spanish (Elementary)
+                </span>
+              </div>
+            </div>
+            <div className="rounded-2xl border border-emerald-500/20 bg-stone-950/40 p-4">
+              <p className="text-xs uppercase tracking-[0.16em] text-emerald-300">
+                Honors
               </p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {honors.map((item) => (
+                  <span
+                    key={item}
+                    className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs text-stone-200"
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -992,7 +1054,7 @@ function App() {
 
           <div className="mt-6 space-y-3">
             <a
-              href="mailto:hayden.cornett06@gmail.com"
+              href="mailto:hayden.cornett.06@gmail.com"
               className="group flex items-center justify-between rounded-2xl border border-emerald-500/30 bg-stone-950/50 px-4 py-4 text-left transition hover:-translate-y-0.5 hover:border-emerald-300"
             >
               <span>
@@ -1000,7 +1062,7 @@ function App() {
                   Email
                 </span>
                 <span className="mt-1 block text-lg font-semibold text-stone-100">
-                  hayden.cornett06@gmail.com
+                  hayden.cornett.06@gmail.com
                 </span>
               </span>
               <span className="text-sm font-semibold text-emerald-200 transition group-hover:translate-x-1">
@@ -1028,10 +1090,7 @@ function App() {
             </a>
           </div>
 
-          <p className="mt-6 text-sm text-stone-400">
-            If you&apos;re unsure which option to use, start with the message button
-            above.
-          </p>
+         
         </div>
       </div>
     </section>
@@ -1057,101 +1116,118 @@ function App() {
       {renderLightbox()}
 
       <header 
-        className="fixed left-0 right-0 bottom-6 flex justify-center z-50 transition-all duration-300 px-4 sm:px-6 lg:px-8"
-        style={{ 
-          opacity: headerHovered ? 1 : 0.5,
-          transform: headerHovered ? 'scale(1)' : 'scale(0.95)'
-        }}
-        onMouseEnter={() => setHeaderHovered(true)}
-        onMouseLeave={() => setHeaderHovered(false)}
+        className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6 lg:px-8 md:top-auto md:bottom-6 md:flex md:justify-center md:pt-0"
       >
-        <div className="glass-card animate-fade-in rounded-2xl border border-emerald-500/30 px-4 py-2 shadow-[0_18px_42px_rgba(0,0,0,0.45)] sm:px-6 sm:py-3 md:px-8 w-fit">
-          <div className="flex items-center justify-center">
-          <nav className="hidden items-center gap-8 text-base font-medium text-stone-300 md:flex">
-            {pageLinks.map((link) => (
-              <a
-                key={link.id}
-                href={getPathForPage(link.id)}
-                className={[
-                  'sleek-nav-link transition',
-                  activeNavPage === link.id ? 'is-active' : '',
-                ].join(' ')}
-                onClick={(event) => {
-                  event.preventDefault()
-                  navigateToPage(link.id)
-                }}
-              >
-                {link.label}
-              </a>
-            ))}
-            <a
-              href="https://www.linkedin.com/in/hayden-cornett/"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Visit Hayden's LinkedIn profile"
-              className="sleek-outline rounded-full p-2 text-emerald-300 transition"
-            >
-              <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden="true">
-                <path
-                  fill="currentColor"
-                  d="M6.94 8.5a1.56 1.56 0 1 1 0-3.12a1.56 1.56 0 0 1 0 3.12ZM5.5 9.72h2.9V19H5.5V9.72Zm4.72 0h2.78v1.27h.04c.39-.73 1.33-1.5 2.73-1.5c2.92 0 3.46 1.92 3.46 4.42V19h-2.9v-4.48c0-1.07-.02-2.45-1.49-2.45c-1.5 0-1.73 1.17-1.73 2.37V19h-2.9V9.72Z"
-                />
-              </svg>
-            </a>
-          </nav>
+        <div className="md:hidden">
+          <div className="glass-card animate-fade-in mx-auto flex w-full max-w-md items-center justify-between gap-3 rounded-3xl border border-emerald-500/30 px-4 py-3 opacity-100 shadow-[0_18px_42px_rgba(0,0,0,0.45)] sm:max-w-lg sm:px-5">
+            <div>
+              <p className="text-[0.65rem] uppercase tracking-[0.22em] text-emerald-300">
+                Hayden Cornett
+              </p>
+              <p className="mt-1 text-sm font-semibold text-stone-100">
+                Marketing portfolio
+              </p>
+            </div>
 
-          <button
-            className="sleek-outline absolute right-2 sm:right-4 inline-flex items-center rounded-full px-2 sm:px-3 py-1 sm:py-1.5 text-xs sm:text-sm font-semibold transition md:hidden"
-            onClick={() => setMenuOpen((open) => !open)}
-            aria-expanded={menuOpen}
-            aria-controls="mobile-menu"
+            <button
+              type="button"
+              className="inline-flex min-h-12 items-center rounded-full border border-emerald-500/30 bg-stone-950/70 px-4 text-sm font-semibold text-stone-100 shadow-md shadow-black/20 transition hover:border-emerald-300 hover:text-emerald-200"
+              onClick={() => setMenuOpen((open) => !open)}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-menu"
+            >
+              {menuOpen ? 'Close' : 'Menu'}
+            </button>
+          </div>
+
+          <div
+            id="mobile-menu"
+            className={[
+              'mx-auto grid w-full max-w-md overflow-hidden transition-all duration-300 sm:max-w-lg',
+              menuOpen ? 'mt-3 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0',
+            ].join(' ')}
           >
-            Menu
-          </button>
+            <nav className="min-h-0 space-y-2 rounded-3xl border border-emerald-500/25 bg-stone-950/90 p-3 text-sm font-medium text-stone-300 shadow-[0_18px_42px_rgba(0,0,0,0.45)]">
+              {pageLinks.map((link) => (
+                <a
+                  key={link.id}
+                  className={[
+                    'block rounded-2xl px-4 py-3 transition',
+                    activeNavPage === link.id
+                      ? 'bg-emerald-500/20 text-emerald-200'
+                      : 'hover:bg-emerald-500/10',
+                  ].join(' ')}
+                  href={getPathForPage(link.id)}
+                  onClick={(event) => {
+                    event.preventDefault()
+                    navigateToPage(link.id)
+                  }}
+                >
+                  {link.label}
+                </a>
+              ))}
+              <a
+                className="block rounded-2xl bg-emerald-700 px-4 py-3 text-center text-white shadow-md shadow-emerald-900/25"
+                href="https://www.linkedin.com/in/hayden-cornett/"
+                target="_blank"
+                rel="noreferrer"
+                onClick={() => setMenuOpen(false)}
+              >
+                LinkedIn
+              </a>
+            </nav>
+          </div>
         </div>
 
         <div
-          id="mobile-menu"
-          className={[
-            'grid overflow-hidden transition-all duration-300 md:hidden',
-            menuOpen ? 'mt-3 grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0',
-          ].join(' ')}
+          className="hidden w-fit max-w-none rounded-2xl border border-emerald-500/30 bg-transparent px-0 py-0 md:block"
+          style={{
+            opacity: headerHovered ? 1 : 0.5,
+            transform: headerHovered ? 'scale(1)' : 'scale(0.95)',
+          }}
+          onMouseEnter={() => setHeaderHovered(true)}
+          onMouseLeave={() => setHeaderHovered(false)}
         >
-          <nav className="min-h-0 space-y-1.5 border-t border-emerald-500/30 pt-2 text-xs sm:text-sm font-medium text-stone-300">
-            {pageLinks.map((link) => (
-              <a
-                key={link.id}
-                className={[
-                  'block rounded-lg px-2 py-1 sm:py-1.5 transition',
-                  'text-xs sm:text-sm',
-                  activeNavPage === link.id
-                    ? 'bg-emerald-500/20 text-emerald-200'
-                    : 'hover:bg-emerald-500/10',
-                ].join(' ')}
-                href={getPathForPage(link.id)}
-                onClick={(event) => {
-                  event.preventDefault()
-                  navigateToPage(link.id)
-                }}
-              >
-                {link.label}
-              </a>
-            ))}
-            <a
-              className="block rounded-lg bg-emerald-700 px-2 py-2 text-center text-white shadow-md shadow-emerald-900/25"
-              href="https://www.linkedin.com/in/hayden-cornett/"
-              target="_blank"
-              rel="noreferrer"
-              onClick={() => setMenuOpen(false)}
-            >
-              LinkedIn
-            </a>
-          </nav>
-        </div>
+          <div className="glass-card animate-fade-in rounded-2xl border border-emerald-500/30 px-4 py-2 shadow-[0_18px_42px_rgba(0,0,0,0.45)] sm:px-6 sm:py-3 md:px-8">
+            <div className="flex items-center justify-center">
+              <nav className="flex items-center gap-8 text-base font-medium text-stone-300">
+                {pageLinks.map((link) => (
+                  <a
+                    key={link.id}
+                    href={getPathForPage(link.id)}
+                    className={[
+                      'sleek-nav-link transition',
+                      activeNavPage === link.id ? 'is-active' : '',
+                    ].join(' ')}
+                    onClick={(event) => {
+                      event.preventDefault()
+                      navigateToPage(link.id)
+                    }}
+                  >
+                    {link.label}
+                  </a>
+                ))}
+                <a
+                  href="https://www.linkedin.com/in/hayden-cornett/"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Visit Hayden's LinkedIn profile"
+                  className="sleek-outline rounded-full p-2 text-emerald-300 transition"
+                >
+                  <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden="true">
+                    <path
+                      fill="currentColor"
+                      d="M6.94 8.5a1.56 1.56 0 1 1 0-3.12a1.56 1.56 0 0 1 0 3.12ZM5.5 9.72h2.9V19H5.5V9.72Zm4.72 0h2.78v1.27h.04c.39-.73 1.33-1.5 2.73-1.5c2.92 0 3.46 1.92 3.46 4.42V19h-2.9v-4.48c0-1.07-.02-2.45-1.49-2.45c-1.5 0-1.73 1.17-1.73 2.37V19h-2.9V9.72Z"
+                    />
+                  </svg>
+                </a>
+              </nav>
+            </div>
+          </div>
         </div>
       </header>
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-32 pt-6 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-32 pt-28 sm:px-6 sm:pt-32 lg:px-8 md:pt-6">
         {renderPage()}
       </div>
     </main>
