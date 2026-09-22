@@ -1,11 +1,5 @@
 import './App.css'
 
-const proof = [
-  { company: 'GE Appliances', value: '95%', label: 'faster recurring reporting', logo: '/GE.png', color: 'blue' },
-  { company: 'Boldsquare', value: '4/4', label: 'client strategies adopted', logo: '/Boldsquare.png', color: 'violet' },
-  { company: 'Beats by Dre', value: 'Gen Z', label: 'insights presented to leadership', logo: '/Beats.png', color: 'red' },
-]
-
 const logos = [
   { name: 'GE Appliances', image: '/GE.png' },
   { name: 'Boldsquare', image: '/Boldsquare.png' },
@@ -15,28 +9,28 @@ const logos = [
 
 const cases = [
   {
-    id: 'ge-appliances', number: '01', eyebrow: 'Marketing analytics · Automation',
-    title: 'Turning recurring reports into a decision system.', company: 'GE Appliances · Bodewell Commerce', date: 'Summer 2026', image: '/GE.png',
-    challenge: 'Recurring Oracle Analytics Cloud reports took hours to assemble and static sales snapshots became inaccurate as transactions changed.',
-    action: 'I rebuilt queries with rolling SQL date logic, automated delivery, and created refreshable dashboards that accounted for cancellations and changing activity.',
-    result: 'Report generation fell by 95%, saving an estimated 110+ staff hours each year. The dashboards were adopted by 4–5 full-time employees.',
-    tags: ['Oracle Analytics', 'SQL', 'Automation', 'Dashboard design'], accent: 'cobalt',
+    id: 'ge-appliances', number: '01', eyebrow: 'Marketing analytics · Consumer insights',
+    title: 'Turning fragmented data into decisions people could use.', company: 'GE Appliances · Bodewell Commerce', date: 'Summer 2026', image: '/GE.png',
+    challenge: 'Teams relied on slow recurring reports, frozen sales snapshots, and customer feedback that was difficult to use beyond a single local profile.',
+    action: 'I rebuilt Oracle reporting workflows, created refreshable executive dashboards, and analyzed 6,381 reviews to connect localized social proof with service territories.',
+    result: 'Reporting became 95% faster, saving 110+ staff hours annually. Dashboards were adopted by full-time employees and relevant five-star reviews were matched to 63% of national service areas.',
+    tags: ['Oracle Analytics', 'SQL', 'Automation', 'Consumer insights'], accent: 'cobalt',
   },
   {
-    id: 'customer-voice', number: '02', eyebrow: 'Consumer insights · Social proof',
-    title: 'Making 6,381 customer voices locally relevant.', company: 'GE Appliances · Bodewell Commerce', date: 'Summer 2026', image: '/GE.png',
-    challenge: 'Bodewell had strong customer feedback, but public social proof was concentrated in a single Kentucky Google Business profile.',
-    action: 'I scraped and analyzed 6,381 reviews, then matched personalized five-star feedback to service territories across the country.',
-    result: 'Relevant customer proof was identified for 63% of national service areas, creating a scalable foundation for localized trust-building.',
-    tags: ['Review analysis', 'Data matching', 'Customer experience', 'Localization'], accent: 'orange',
-  },
-  {
-    id: 'boldsquare', number: '03', eyebrow: 'Brand strategy · Client work',
+    id: 'boldsquare', number: '02', eyebrow: 'Brand strategy · Client work',
     title: 'Four clients. Four strategies built to be used.', company: 'Boldsquare', date: 'Spring 2026', image: '/Boldsquare.png',
     challenge: 'Clients across entertainment, medical technology, international nonprofit, and professional events needed distinct, actionable growth plans.',
     action: 'I managed full-cycle engagements spanning research, positioning, channel strategy, creative concepts, and direct client presentations—including two accelerated turnarounds.',
     result: 'Every client adopted recommendations into planned or active marketing efforts across social, product advertising, and brand execution.',
     tags: ['Brand positioning', 'Social strategy', 'Client presentation', 'Creative direction'], accent: 'violet',
+  },
+  {
+    id: 'beats', number: '03', eyebrow: 'Consumer insights · Market research',
+    title: 'Translating Gen Z listening habits into a strategic point of view.', company: 'Beats by Dre', date: 'Spring 2025', image: '/Beats.png',
+    challenge: 'A global audio brand needed a sharper view of how Gen Z discovers, evaluates, and builds relationships with audio products.',
+    action: 'I combined survey research, trend analysis, statistical modeling, and AI-assisted workflows to identify patterns in preferences and behavior.',
+    result: 'I turned the research into product and marketing recommendations and presented the final strategy directly to Beats’ Head of Consumer Insights.',
+    tags: ['Market research', 'Survey analysis', 'Statistical modeling', 'Gen Z strategy'], accent: 'orange',
   },
 ]
 
@@ -82,10 +76,6 @@ function App() {
           <div className="logo-track">
             {[...logos, ...logos].map((logo, index) => <div className="marquee-logo" key={`${logo.name}-${index}`}><img src={logo.image} alt="" /><span>{logo.name}</span></div>)}
           </div>
-        </section>
-
-        <section className="proof-bar" aria-label="Selected results">
-          {proof.map((item) => <article className={`proof-item ${item.color}`} key={item.company}><div className="proof-company"><img src={item.logo} alt="" /><span>{item.company}</span></div><strong>{item.value}</strong><p>{item.label}</p></article>)}
         </section>
 
         <section id="work" className="work-section section-pad">
