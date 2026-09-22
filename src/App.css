@@ -60,3 +60,21 @@
 
 @media(max-width:900px){.hero{min-height:980px;padding-top:9rem;padding-bottom:33rem;justify-content:flex-start}.hero h1{max-width:100%;font-size:clamp(4rem,12vw,7rem)}.hero h1 span{margin-left:0}.hero-bottom{margin-left:0;max-width:100%}.hero-portrait{top:auto;left:auto;right:2rem;bottom:3rem;width:min(56vw,390px);height:470px;min-height:0}.hero-orbit{right:-20vw}}
 @media(max-width:560px){.hero{min-height:1080px;padding-top:8.5rem;padding-bottom:29rem}.hero h1{font-size:clamp(3.5rem,17vw,5rem);line-height:.88}.hero-bottom{display:block}.hero-bottom .circle-link{margin-top:1.5rem}.hero-portrait{left:1.2rem;right:1.2rem;top:39rem;bottom:auto;width:auto;height:420px}.hero-portrait img{object-position:center 38%}}
+
+/* Personal photo reel */
+.photo-reel{isolation:isolate}
+.reel-frame{background:var(--ink)}
+.reel-photo{position:absolute;inset:0;width:100%!important;height:100%!important;object-fit:cover;opacity:0;transform:scale(1.08) rotate(.35deg);filter:saturate(.92) contrast(1.03)!important;transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform 5.2s cubic-bezier(.2,.7,.2,1);will-change:opacity,transform}
+.reel-photo.active{z-index:1;opacity:1;transform:scale(1.01) rotate(0)}
+.reel-wipe{position:absolute;z-index:2;inset:0;background:var(--orange);pointer-events:none;transform-origin:right;animation:reel-wipe 1.05s cubic-bezier(.76,0,.24,1) both;mix-blend-mode:multiply}
+@keyframes reel-wipe{0%{transform:scaleX(0);transform-origin:left;opacity:.8}42%{transform:scaleX(1);transform-origin:left;opacity:.55}43%{transform-origin:right}100%{transform:scaleX(0);transform-origin:right;opacity:.15}}
+.reel-counter{position:absolute;z-index:3;top:1rem;right:1rem;padding:.55rem .7rem;background:rgba(25,31,43,.72);backdrop-filter:blur(10px);color:rgba(255,255,255,.7);font-size:.62rem;letter-spacing:.12em}
+.reel-counter span{color:#fff;font-weight:700}
+.reel-caption{z-index:4;max-width:190px}
+.reel-controls{position:absolute;z-index:5;left:0;bottom:-2.3rem;display:flex;gap:.38rem}
+.reel-controls button{width:2.1rem;height:1rem;border:0;padding:0;background:transparent;cursor:pointer}
+.reel-controls button span{display:block;width:100%;height:2px;background:var(--line);transition:.35s ease;transform-origin:left}
+.reel-controls button.active span{height:3px;background:var(--blue);transform:scaleX(1)}
+.reel-controls button:hover span{background:var(--orange)}
+@media(max-width:900px){.reel-controls{bottom:-2rem}.reel-caption{right:-1rem}}
+@media(max-width:560px){.reel-caption{right:-.6rem;bottom:1rem;max-width:170px}.reel-controls{left:0;bottom:-2rem;width:100%}.reel-controls button{flex:1}}

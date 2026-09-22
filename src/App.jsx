@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import './App.css'
 
 const logos = [
@@ -49,7 +50,49 @@ const leadership = [
   { role: 'Professional Development Co-Chair', org: 'GE Appliances Intern Program', detail: 'Produced seven events for a 200+ person intern class and coordinated professional headshots for 89 employees.' },
 ]
 
+const contextPhotos = [
+  { src: '/context-photos/dog-volunteer.jpeg', alt: 'Hayden volunteering with a rescue dog', label: 'Service, with a good co-worker', position: 'center 58%' },
+  { src: '/context-photos/rooftop-friends.jpeg', alt: 'Hayden with friends on a Knoxville rooftop', label: 'The people behind the progress', position: 'center 35%' },
+  { src: '/context-photos/neyland-ambassador.jpeg', alt: 'Hayden working as a Tennessee Student Ambassador at Neyland Stadium', label: 'Home of the Vols', position: 'center 60%' },
+  { src: '/context-photos/ambassador-team.jpeg', alt: 'Hayden and the Tennessee ambassador team', label: 'Showing up for the team', position: 'center 38%' },
+  { src: '/context-photos/campus-community.jpeg', alt: 'Hayden with friends in the Haslam College of Business', label: 'Community makes the work better', position: 'center 44%' },
+  { src: '/context-photos/context-06.jpeg', alt: 'Hayden hiking with family', label: 'A little room to think', position: 'center center' },
+  { src: '/context-photos/context-07.jpeg', alt: 'Hayden exploring Chicago with friends', label: 'Curiosity travels well', position: 'center center' },
+]
+
 function Arrow() { return <span aria-hidden="true">↗</span> }
+
+function PhotoReel() {
+  const [active, setActive] = useState(0)
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined
+    const timer = window.setInterval(() => setActive((current) => (current + 1) % contextPhotos.length), 4500)
+    return () => window.clearInterval(timer)
+  }, [])
+
+  return (
+    <div className="portrait-wrap photo-reel" aria-roledescription="carousel" aria-label="Photos from Hayden’s life and campus community">
+      <div className="portrait-frame reel-frame">
+        {contextPhotos.map((photo, index) => (
+          <img
+            className={index === active ? 'reel-photo active' : 'reel-photo'}
+            src={photo.src}
+            alt={index === active ? photo.alt : ''}
+            style={{ objectPosition: photo.position }}
+            key={photo.src}
+          />
+        ))}
+        <div className="reel-wipe" key={active} aria-hidden="true" />
+        <div className="reel-counter"><span>{String(active + 1).padStart(2, '0')}</span> / {String(contextPhotos.length).padStart(2, '0')}</div>
+      </div>
+      <div className="portrait-caption reel-caption" aria-live="polite">{contextPhotos[active].label}</div>
+      <div className="reel-controls" aria-label="Choose a photo">
+        {contextPhotos.map((photo, index) => <button className={index === active ? 'active' : ''} onClick={() => setActive(index)} aria-label={`Show photo ${index + 1}: ${photo.label}`} key={photo.src}><span /></button>)}
+      </div>
+    </div>
+  )
+}
 
 function App() {
   return (
@@ -101,7 +144,7 @@ function App() {
         </section>
 
         <section id="about" className="about-section section-pad">
-          <div className="portrait-wrap"><div className="portrait-frame"><img src="/Headshot.jpeg" alt="Hayden Cornett" /></div><div className="portrait-caption">Knoxville, Tennessee<br />Open to opportunities</div></div>
+          <PhotoReel />
           <div className="about-copy">
             <p className="eyebrow">A little context</p><h2>Curious about people.<br />Serious about the details.</h2>
             <p className="about-lead">I study marketing because decisions start with people—and data science because good instincts deserve evidence.</p>
