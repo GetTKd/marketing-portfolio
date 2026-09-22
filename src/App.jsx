@@ -1,10 +1,16 @@
 import './App.css'
 
 const proof = [
-  ['95%', 'faster recurring reporting'],
-  ['6,381', 'customer reviews analyzed'],
-  ['15+', 'analytics & insight projects'],
-  ['4', 'client strategies adopted'],
+  { company: 'GE Appliances', value: '95%', label: 'faster recurring reporting', logo: '/GE.png', color: 'blue' },
+  { company: 'Boldsquare', value: '4/4', label: 'client strategies adopted', logo: '/Boldsquare.png', color: 'violet' },
+  { company: 'Beats by Dre', value: 'Gen Z', label: 'insights presented to leadership', logo: '/Beats.png', color: 'red' },
+]
+
+const logos = [
+  { name: 'GE Appliances', image: '/GE.png' },
+  { name: 'Boldsquare', image: '/Boldsquare.png' },
+  { name: 'Beats by Dre', image: '/Beats.png' },
+  { name: 'University of Tennessee', image: '/Tennessee.png' },
 ]
 
 const cases = [
@@ -35,10 +41,12 @@ const cases = [
 ]
 
 const experience = [
-  { org: 'GE Appliances', role: 'Commercial Intern · Bodewell Commerce', date: 'May — Aug 2026', summary: 'Delivered 15+ analytics, automation, and customer-insight projects—more than five times the internship curriculum requirement.' },
-  { org: 'Boldsquare', role: 'Marketing & Communications Intern', date: 'Jan — May 2026', summary: 'Led client-facing strategy work at an Inc. 5000 communications firm across four distinct industries.' },
-  { org: 'Beats by Dre', role: 'Consumer Insights & Market Research Extern', date: 'Apr — Jun 2025', summary: 'Researched Gen Z audio preferences and presented data-backed recommendations to the Head of Consumer Insights.' },
-  { org: 'University of Tennessee', role: 'Student Ambassador', date: 'Feb 2025 — Present', summary: 'Selected from 634 applicants to guide prospective students, families, and VIPs through the Tennessee experience.' },
+  { org: 'GE Appliances', role: 'Commercial Intern · Bodewell Commerce', date: 'May — Aug 2026', location: 'Louisville, KY', summary: 'Marketing analytics, automation, and customer insight at enterprise scale.', bullets: ['Reengineered recurring Oracle Analytics Cloud reports, cutting generation time 95% and saving an estimated 110+ staff hours annually.', 'Built refreshable Bodewell and Private Store dashboards adopted by 4–5 full-time employees.', 'Analyzed 6,381 reviews and matched personalized five-star feedback to 63% of national service areas.', 'Delivered 15+ projects—more than five times the internship curriculum requirement.', 'Co-chaired professional development for 200+ interns; produced seven events and coordinated 89 headshots.'] },
+  { org: 'Boldsquare', role: 'Marketing & Communications Intern', date: 'Jan — May 2026', location: 'Knoxville, TN', summary: 'Full-cycle strategy engagements across four industries.', bullets: ['Selected through the Haslam College of Business for an intensive semester at an Inc. 5000 strategic communications firm.', 'Managed projects for four nonprofit and for-profit clients, including two accelerated turnaround engagements.', 'Developed recommendations spanning brand positioning, product advertising, and social strategy across major platforms.', 'Presented final strategies to all four clients; every client adopted recommendations into planned or active work.', 'Created merchandise concepts, brand standards, and supporting marketing assets.'] },
+  { org: 'Beats by Dre', role: 'Consumer Insights & Market Research Analyst Extern', date: 'Apr — Jun 2025', location: 'Remote', summary: 'Gen Z research translated into product and marketing recommendations.', bullets: ['Researched Gen Z audio preferences through trend analysis, surveys, and statistical modeling.', 'Combined AI-powered systems with primary and secondary research to shape strategic recommendations.', 'Presented findings and recommendations directly to the Head of Consumer Insights.'] },
+  { org: 'University of Tennessee', role: 'Student Ambassador', date: 'Feb 2025 — Present', location: 'Knoxville, TN', summary: 'Audience-aware storytelling for prospective students and families.', bullets: ['Selected as 1 of 634 applicants through a 6% acceptance process.', 'Lead campus tours for groups of 15–35 prospective students, families, and VIPs.', 'Adapt messaging to audience needs and support major recruitment events including Big Orange Preview and Rocky Top Tailgate.'] },
+  { org: 'The Rail Trail Flatbread Co.', role: 'Front of House Team Member · Seasonal', date: 'May — Aug 2025', location: 'Hudson, MA', summary: 'Customer experience in a fast-moving hospitality team.', bullets: ['Mastered menu knowledge and the top seven U.S. allergens to provide safe, personalized experiences.', 'Supported a 20+ person team contributing to more than $800K in seasonal revenue.'] },
+  { org: 'Cube Community', role: 'Video Editor', date: 'Aug 2021 — Jul 2024', location: 'Remote', summary: 'Creative production for a global VR gaming community.', bullets: ['Produced video work for a YouTube community focused on Beat Saber and VR culture.', 'Contributed to the annual Rewind time-capsule event featuring prominent creators across the VR industry.', 'Built an early foundation in creative collaboration, feedback, deadlines, and audience engagement.'] },
 ]
 
 const leadership = [
@@ -66,11 +74,18 @@ function App() {
             <p>I’m Hayden Cornett, an Honors Marketing & Data Science student building sharper systems, stronger strategies, and work people actually use.</p>
             <a className="circle-link" href="#work" aria-label="Explore selected work">↓</a>
           </div>
+          <div className="hero-portrait reveal delay-2"><img src="/Headshot.jpeg" alt="Hayden Cornett" /><span>Hayden Cornett<br />Knoxville, TN</span></div>
           <div className="hero-orbit" aria-hidden="true"><div className="orbit-line" /><div className="orbit-dot" /></div>
         </section>
 
+        <section className="logo-marquee" aria-label="Organizations Hayden has worked with">
+          <div className="logo-track">
+            {[...logos, ...logos].map((logo, index) => <div className="marquee-logo" key={`${logo.name}-${index}`}><img src={logo.image} alt="" /><span>{logo.name}</span></div>)}
+          </div>
+        </section>
+
         <section className="proof-bar" aria-label="Selected results">
-          {proof.map(([value, label]) => <div className="proof-item" key={label}><strong>{value}</strong><span>{label}</span></div>)}
+          {proof.map((item) => <article className={`proof-item ${item.color}`} key={item.company}><div className="proof-company"><img src={item.logo} alt="" /><span>{item.company}</span></div><strong>{item.value}</strong><p>{item.label}</p></article>)}
         </section>
 
         <section id="work" className="work-section section-pad">
@@ -90,7 +105,7 @@ function App() {
         <section id="experience" className="experience-section section-pad">
           <div className="section-heading inverse"><p className="eyebrow">Experience</p><h2>Range, with a point of view.</h2></div>
           <div className="experience-list">
-            {experience.map((item, index) => <article className="experience-row" key={item.org}><span className="experience-number">0{index + 1}</span><div><h3>{item.org}</h3><p>{item.role}</p></div><p className="experience-summary">{item.summary}</p><span className="experience-date">{item.date}</span></article>)}
+            {experience.map((item, index) => <details className="experience-row" key={item.org} open={index === 0}><summary><span className="experience-number">0{index + 1}</span><div><h3>{item.org}</h3><p>{item.role}</p></div><p className="experience-summary">{item.summary}</p><span className="experience-date">{item.date}<small>{item.location}</small></span><span className="expand-icon" aria-hidden="true">+</span></summary><div className="experience-detail"><ul>{item.bullets.map((bullet) => <li key={bullet}>{bullet}</li>)}</ul></div></details>)}
           </div>
           <a className="text-link light" href="/resume.pdf" target="_blank" rel="noreferrer">View full résumé <Arrow /></a>
         </section>
